@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RepairTrack Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #f8fafc; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        @media (min-width: 640px) { ::-webkit-scrollbar { width: 6px; height: 6px; } }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-content { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); transform: scale(0.95) translateY(10px); }
+        .modal.active { opacity: 1; visibility: visible; }
+        .modal.active .modal-content { transform: scale(1) translateY(0); }
+        body.modal-open { overflow: hidden; }
+
+        /* Dynamic Theme Variables */
+        :root {
+            --theme-main: #3b82f6; 
+            --theme-hover: #2563eb;
+            --theme-light: #eff6ff;
+            --theme-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+        
+        .theme-bg { background: var(--theme-gradient) !important; color: white !important; }
+        .theme-text { color: var(--theme-main) !important; }
+        .theme-ring:focus { --tw-ring-color: var(--theme-main) !important; border-color: var(--theme-main) !important; }
+        .theme-btn { background-color: var(--theme-main); color: white; transition: all 0.2s; }
+        .theme-btn:hover { background-color: var(--theme-hover); transform: translateY(-1px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .scroll-smooth-touch { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <nav class="glass sticky top-0 z-40 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-14 sm:h-16">
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl theme-bg flex items-center justify-center shadow-lg shrink-0">
+                        <i class="fa-solid fa-screwdriver-wrench text-white text-sm sm:text-lg"></i>
+                    </div>
+                    <span class="font-bold text-lg sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500 truncate max-w-[150px] sm:max-w-none">RepairTrack</span>
+                </div>
+                
+                <div class="flex items-center">
+                    <button id="adminLoginBtn" onclick="toggleModal('loginModal')" class="theme-btn font-medium py-1.5 sm:py-2 px-4 sm:px-5 rounded-lg text-xs sm:text-sm shadow-md flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved"></i> <span class="hidden sm:inline">Admin Login</span><span class="sm:hidden">Admin</span>
+                    </button>
+                    
+                    <!-- Fitur Admin (Muncul setelah Login) -->
+                    <div id="adminControls" class="hidden flex items-center space-x-1 sm:space-x-3">
+                        <button onclick="toggleModal('settingsModal')" class="text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition p-2 sm:p-2.5 rounded-full" title="Pengaturan Tampilan (Tema)">
+                            <i class="fa-solid fa-palette text-base sm:text-lg"></i>
+                        </button>
+                        <div class="hidden md:flex items-center px-3 py-1.5 bg-emerald-50 border border-emerald-100 rounded-full">
+                            <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2"></div>
+                            <span class="text-emerald-700 font-semibold text-xs tracking-wide">ADMIN MODE</span>
+                        </div>
+                        <button onclick="logoutAdmin()" class="text-slate-500 hover:text-red-600 hover:bg-red-50 transition p-2 sm:p-2.5 rounded-full" title="Keluar">
+                            <i class="fa-solid fa-power-off text-base sm:text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-100 flex flex-col relative overflow-hidden group">
+                <div class="absolute -right-4 -top-4 w-12 h-12 sm:w-16 sm:h-16 bg-blue-50 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                <span class="text-slate-500 text-xs sm:text-sm font-medium z-10">Total Barang</span>
+                <span id="statTotal" class="text-2xl sm:text-3xl font-bold text-slate-800 mt-1 z-10">0</span>
+                <i class="fa-solid fa-boxes-stacked absolute right-3 sm:right-4 bottom-3 sm:bottom-4 text-blue-100 sm:text-blue-200 text-xl sm:text-2xl z-10"></i>
+            </div>
+            <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-100 flex flex-col relative overflow-hidden group">
+                <div class="absolute -right-4 -top-4 w-12 h-12 sm:w-16 sm:h-16 bg-yellow-50 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                <span class="text-slate-500 text-xs sm:text-sm font-medium z-10">Sedang Proses</span>
+                <span id="statProses" class="text-2xl sm:text-3xl font-bold text-yellow-600 mt-1 z-10">0</span>
+                <i class="fa-solid fa-gears absolute right-3 sm:right-4 bottom-3 sm:bottom-4 text-yellow-100 sm:text-yellow-200 text-xl sm:text-2xl z-10"></i>
+            </div>
+            <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-100 flex flex-col relative overflow-hidden group">
+                <div class="absolute -right-4 -top-4 w-12 h-12 sm:w-16 sm:h-16 bg-green-50 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                <span class="text-slate-500 text-xs sm:text-sm font-medium z-10">Selesai Repair</span>
+                <span id="statSelesai" class="text-2xl sm:text-3xl font-bold text-green-600 mt-1 z-10">0</span>
+                <i class="fa-solid fa-clipboard-check absolute right-3 sm:right-4 bottom-3 sm:bottom-4 text-green-100 sm:text-green-200 text-xl sm:text-2xl z-10"></i>
+            </div>
+            <div class="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-100 flex flex-col relative overflow-hidden group">
+                <div class="absolute -right-4 -top-4 w-12 h-12 sm:w-16 sm:h-16 bg-cyan-50 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                <span class="text-slate-500 text-xs sm:text-sm font-medium z-10">Sudah Dikirim</span>
+                <span id="statDikirim" class="text-2xl sm:text-3xl font-bold text-cyan-600 mt-1 z-10">0</span>
+                <i class="fa-solid fa-truck-fast absolute right-3 sm:right-4 bottom-3 sm:bottom-4 text-cyan-100 sm:text-cyan-200 text-xl sm:text-2xl z-10"></i>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <div>
+                <h1 class="text-xl sm:text-2xl font-bold text-slate-800">Data Pemeliharaan</h1>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">Daftar riwayat perbaikan barang masuk.</p>
+            </div>
+            <button id="addBtn" onclick="toggleModal('addModal')" class="hidden bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-3 sm:py-2.5 px-5 rounded-xl shadow-lg shadow-emerald-200 transition-all transform hover:-translate-y-1 flex items-center gap-2 w-full sm:w-auto justify-center active:scale-95">
+                <i class="fa-solid fa-plus"></i> Form Barang Masuk
+            </button>
+        </div>
+
+        <div class="bg-white rounded-xl sm:rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 overflow-hidden relative">
+            <!-- Indikator Scroll Horizontal untuk HP -->
+            <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none md:hidden z-10"></div>
+            
+            <div class="overflow-x-auto scroll-smooth-touch w-full pb-2">
+                <table class="min-w-[800px] xl:min-w-full divide-y divide-slate-100">
+                    <thead class="bg-slate-50/80 text-slate-500 text-xs uppercase tracking-wider font-semibold">
+                        <tr>
+                            <th data-col="id" class="px-4 sm:px-6 py-3 sm:py-4 text-left whitespace-nowrap">ID & Waktu</th>
+                            <th data-col="customer" class="px-4 sm:px-6 py-3 sm:py-4 text-left whitespace-nowrap">Pelanggan & Sales</th>
+                            <th data-col="barang" class="px-4 sm:px-6 py-3 sm:py-4 text-left whitespace-nowrap">Rincian Barang</th>
+                            <th data-col="status" class="px-4 sm:px-6 py-3 sm:py-4 text-left whitespace-nowrap">Status</th>
+                            <th data-col="dokumentasi" class="px-4 sm:px-6 py-3 sm:py-4 text-center whitespace-nowrap">Dokumentasi</th>
+                            <th id="actionHeader" class="hidden px-4 sm:px-6 py-3 sm:py-4 text-right whitespace-nowrap">Aksi Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="bg-white divide-y divide-slate-100">
+                        <!-- Data baris tabel di-inject oleh JS -->
+                    </tbody>
+                </table>
+                
+                <!-- Loading State -->
+                <div id="loadingIndicator" class="hidden py-12 sm:py-16 text-center w-full">
+                    <div class="inline-block relative w-10 h-10 sm:w-12 sm:h-12">
+                        <div class="absolute top-0 w-full h-full border-4 border-slate-100 rounded-full"></div>
+                        <div class="absolute top-0 w-full h-full border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+                    </div>
+                    <p class="text-slate-500 mt-3 sm:mt-4 text-sm sm:text-base font-medium animate-pulse">Menyelaraskan data...</p>
+                </div>
+                
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden py-12 sm:py-16 text-center flex-col items-center justify-center w-full">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                        <i class="fa-solid fa-box-open text-2xl sm:text-3xl text-slate-300"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-semibold text-slate-700">Belum Ada Data</h3>
+                    <p class="text-slate-500 mt-1 max-w-xs sm:max-w-sm mx-auto text-xs sm:text-sm px-4">Barang repair yang didaftarkan akan muncul di sini.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Pengaturan (Tema & Kolom) -->
+    <div id="settingsModal" class="modal invisible opacity-0 fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="toggleModal('settingsModal')"></div>
+        <div class="modal-content bg-white w-full max-w-sm mx-auto rounded-2xl shadow-2xl relative overflow-hidden z-10">
+            <div class="px-5 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <h3 class="font-bold text-slate-800 text-base sm:text-lg flex items-center gap-2"><i class="fa-solid fa-palette text-slate-400"></i> Personalisasi</h3>
+                <button onclick="toggleModal('settingsModal')" class="text-slate-400 hover:text-slate-700 bg-white rounded-full p-2 shadow-sm active:scale-95"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="p-5 sm:p-6">
+                <!-- Pengaturan Tema -->
+                <div class="mb-6">
+                    <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Warna Tema Aplikasi</p>
+                    <div class="flex gap-2 sm:gap-3 justify-center sm:justify-start">
+                        <button onclick="changeTheme('blue')" class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 shadow-sm ring-2 ring-offset-2 ring-transparent hover:ring-blue-500 transition-all active:scale-90" title="Biru"></button>
+                        <button onclick="changeTheme('emerald')" class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-sm ring-2 ring-offset-2 ring-transparent hover:ring-emerald-500 transition-all active:scale-90" title="Hijau"></button>
+                        <button onclick="changeTheme('rose')" class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 shadow-sm ring-2 ring-offset-2 ring-transparent hover:ring-rose-500 transition-all active:scale-90" title="Merah"></button>
+                        <button onclick="changeTheme('violet')" class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-400 to-violet-600 shadow-sm ring-2 ring-offset-2 ring-transparent hover:ring-violet-500 transition-all active:scale-90" title="Ungu"></button>
+                        <button onclick="changeTheme('slate')" class="w-10 h-10 rounded-full bg-gradient-to-br from-slate-600 to-slate-800 shadow-sm ring-2 ring-offset-2 ring-transparent hover:ring-slate-700 transition-all active:scale-90" title="Gelap"></button>
+                    </div>
+                </div>
+                <!-- Pengaturan Kolom -->
+                <div>
+                    <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Tampilkan Kolom</p>
+                    <div class="space-y-3 sm:space-y-4">
+                        <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" checked onchange="toggleColumn('id', this.checked)" class="w-5 h-5 sm:w-4 sm:h-4 rounded text-blue-600 border-slate-300 focus:ring-blue-500"><span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">ID & Waktu</span></label>
+                        <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" checked onchange="toggleColumn('customer', this.checked)" class="w-5 h-5 sm:w-4 sm:h-4 rounded text-blue-600 border-slate-300 focus:ring-blue-500"><span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">Pelanggan & Sales</span></label>
+                        <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" checked onchange="toggleColumn('barang', this.checked)" class="w-5 h-5 sm:w-4 sm:h-4 rounded text-blue-600 border-slate-300 focus:ring-blue-500"><span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">Rincian Barang</span></label>
+                        <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" checked onchange="toggleColumn('status', this.checked)" class="w-5 h-5 sm:w-4 sm:h-4 rounded text-blue-600 border-slate-300 focus:ring-blue-500"><span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">Status</span></label>
+                        <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" checked onchange="toggleColumn('dokumentasi', this.checked)" class="w-5 h-5 sm:w-4 sm:h-4 rounded text-blue-600 border-slate-300 focus:ring-blue-500"><span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">Dokumentasi Foto</span></label>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100">
+                <button onclick="toggleModal('settingsModal')" class="theme-btn py-3 sm:py-2.5 px-6 rounded-xl text-sm font-medium w-full active:scale-95">Tutup Pengaturan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Login -->
+    <div id="loginModal" class="modal invisible opacity-0 fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="toggleModal('loginModal')"></div>
+        <div class="modal-content bg-white w-full max-w-sm mx-auto rounded-2xl shadow-2xl relative z-10 overflow-hidden">
+            <div class="h-2 w-full theme-bg"></div>
+            <button onclick="toggleModal('loginModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-2"><i class="fa-solid fa-times"></i></button>
+            <div class="p-6 sm:p-8 text-center mt-2">
+                <div class="w-14 h-14 sm:w-16 sm:h-16 theme-bg rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg ring-4 ring-blue-50">
+                    <i class="fa-solid fa-shield-halved text-white text-xl sm:text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-xl sm:text-2xl text-slate-800 mb-1">Akses Admin</h3>
+                <p class="text-xs sm:text-sm text-slate-500 mb-6">Masukkan PIN rahasia untuk merubah data & tema.</p>
+                <div class="relative">
+                    <i class="fa-solid fa-key absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <!-- Input PIN diubah tipenya agar aman -->
+                    <input type="password" id="pinInput" placeholder="PIN" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3.5 sm:py-3 focus:outline-none focus:bg-white theme-ring focus:ring-2 transition-all font-medium text-center tracking-[0.3em] text-lg">
+                </div>
+                <button onclick="login()" class="theme-btn w-full py-3.5 sm:py-3 rounded-xl font-medium mt-6 shadow-md active:scale-95">Otorisasi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Data Barang -->
+    <div id="addModal" class="modal invisible opacity-0 fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="toggleModal('addModal')"></div>
+        <div class="modal-content bg-white w-full sm:max-w-2xl mx-auto rounded-t-2xl sm:rounded-2xl shadow-2xl relative z-10 max-h-[90vh] flex flex-col overflow-hidden mt-auto sm:mt-0">
+            <div class="px-5 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <h3 class="font-bold text-slate-800 text-lg sm:text-xl flex items-center gap-2"><i class="fa-solid fa-box-open text-emerald-500"></i> Registrasi Barang</h3>
+                <button onclick="toggleModal('addModal')" class="text-slate-400 hover:text-slate-700 bg-white rounded-full p-2 shadow-sm active:scale-95"><i class="fa-solid fa-times"></i></button>
+            </div>
+            
+            <div class="p-5 sm:p-6 overflow-y-auto scroll-smooth-touch pb-10 sm:pb-6">
+                <form id="addForm" onsubmit="submitNewItem(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                        <div>
+                            <label class="block text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Nama Sales</label>
+                            <input type="text" id="addSales" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-2.5 text-sm focus:outline-none focus:bg-white theme-ring focus:ring-2 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Nama Customer</label>
+                            <input type="text" id="addCustomer" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-2.5 text-sm focus:outline-none focus:bg-white theme-ring focus:ring-2 transition-all">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Jenis Barang & Kerusakan</label>
+                            <input type="text" id="addBarang" placeholder="Cth: Laptop ASUS ROG - Mati Total" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-2.5 text-sm focus:outline-none focus:bg-white theme-ring focus:ring-2 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Jumlah (Qty)</label>
+                            <input type="number" id="addQty" min="1" value="1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-2.5 text-sm focus:outline-none focus:bg-white theme-ring focus:ring-2 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">Foto Pengecekan (Saat Tiba)</label>
+                            <div class="relative w-full">
+                                <input type="file" id="addFotoPengecekan" accept="image/*" class="w-full text-xs sm:text-sm text-slate-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-slate-50 border border-slate-200 rounded-xl p-1 cursor-pointer transition-all">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="p-4 sm:p-5 bg-slate-50 border-t border-slate-100 flex flex-col-reverse sm:flex-row justify-end gap-3 sm:rounded-b-2xl">
+                <button type="button" onclick="toggleModal('addModal')" class="w-full sm:w-auto px-5 py-3 sm:py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 transition-colors font-medium shadow-sm active:scale-95 text-sm">Batal</button>
+                <button type="submit" form="addForm" id="submitAddBtn" class="w-full sm:w-auto px-6 py-3 sm:py-2.5 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 transition-colors shadow-md shadow-emerald-200 font-medium flex justify-center items-center gap-2 active:scale-95 text-sm">
+                    <i class="fa-solid fa-save"></i> Simpan Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Update Status & Foto Pengiriman (Fitur Khusus Admin) -->
+    <div id="updateModal" class="modal invisible opacity-0 fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="toggleModal('updateModal')"></div>
+        <div class="modal-content bg-white w-full sm:max-w-md mx-auto rounded-t-2xl sm:rounded-2xl shadow-2xl relative z-10 overflow-hidden mt-auto sm:mt-0">
+            <div class="px-5 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <h3 class="font-bold text-slate-800 text-lg sm:text-xl flex items-center gap-2"><i class="fa-solid fa-pen-to-square theme-text"></i> Update Status</h3>
+                <button onclick="toggleModal('updateModal')" class="text-slate-400 hover:text-slate-700 bg-white rounded-full p-2 shadow-sm active:scale-95"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="p-5 sm:p-6 pb-8 sm:pb-6">
+                <form id="updateForm" onsubmit="submitUpdateStatus(event)">
+                    <input type="hidden" id="updateId">
+                    <div class="mb-5 bg-blue-50/50 border border-blue-100 p-3 sm:p-4 rounded-xl flex items-start gap-3 sm:gap-4">
+                        <div class="bg-white p-2.5 rounded-lg shadow-sm border border-blue-100 hidden sm:block">
+                            <i class="fa-solid fa-microchip text-2xl text-blue-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] sm:text-xs font-bold text-blue-500 tracking-wide" id="updateIdText"></p>
+                            <p class="text-sm font-medium text-slate-800 mt-1 line-clamp-2" id="updateBarangText"></p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Progress Saat Ini</label>
+                        <select id="updateStatus" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 sm:py-3 focus:outline-none focus:bg-white theme-ring focus:ring-2 transition-all text-sm sm:text-base font-medium text-slate-700 cursor-pointer mb-4">
+                            <option value="Proses">⚙️ Masih Proses</option>
+                            <option value="Selesai">✅ Selesai</option>
+                            <option value="Sudah Dikirim">🚚 Sudah Dikirim</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Foto Pengiriman <span class="text-slate-400 font-normal capitalize">(Khusus saat barang dikirim)</span></label>
+                        <div class="relative w-full">
+                            <input type="file" id="updateFotoPengiriman" accept="image/*" class="w-full text-xs sm:text-sm text-slate-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100 bg-slate-50 border border-slate-200 rounded-xl p-1 cursor-pointer transition-all">
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-2 italic">*Kosongkan jika tidak ada update foto.</p>
+                    </div>
+                </form>
+            </div>
+            <div class="p-4 sm:p-5 bg-slate-50 border-t border-slate-100 flex flex-col-reverse sm:flex-row justify-end gap-3 sm:rounded-b-2xl">
+                <button type="button" onclick="toggleModal('updateModal')" class="w-full sm:w-auto px-5 py-3 sm:py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 transition-colors font-medium shadow-sm active:scale-95 text-sm">Batal</button>
+                <button type="submit" form="updateForm" id="submitUpdateBtn" class="theme-btn w-full sm:w-auto px-6 py-3 sm:py-2.5 rounded-xl font-medium shadow-md flex justify-center items-center gap-2 active:scale-95 text-sm">
+                    Simpan Perubahan
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Lihat Foto (Pop-up Zoom Foto) -->
+    <div id="photoModal" class="modal invisible opacity-0 fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4">
+        <div class="absolute inset-0 bg-slate-950/95 backdrop-blur-md" onclick="toggleModal('photoModal')"></div>
+        <div class="modal-content relative z-[70] w-full max-w-4xl flex flex-col items-center justify-center">
+            <button onclick="toggleModal('photoModal')" class="absolute top-2 right-2 sm:-top-12 sm:right-0 text-white hover:text-slate-200 text-2xl sm:text-3xl transition-colors bg-slate-800/80 w-10 h-10 rounded-full flex justify-center items-center backdrop-blur-md shadow-lg z-10">&times;</button>
+            <div class="bg-black/50 p-1 sm:p-2 rounded-xl sm:rounded-2xl shadow-2xl border border-slate-700/50 max-w-full">
+                <img id="photoViewer" src="" alt="Foto Preview" class="max-h-[70vh] sm:max-h-[80vh] w-auto max-w-full rounded-lg sm:rounded-xl object-contain">
+            </div>
+            <h3 id="photoTitle" class="text-white/90 text-center font-medium mt-4 tracking-wide text-xs sm:text-sm bg-slate-800/80 px-4 py-2 rounded-full backdrop-blur-md shadow-lg"></h3>
+        </div>
+    </div>
+
+    <!-- Kontainer Notifikasi (Toast) -->
+    <div id="toastContainer" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 sm:w-96 z-[100] flex flex-col space-y-3 pointer-events-none"></div>
+
+    <script>
+        // ==========================================
+        // KONFIGURASI PENTING
+        // ==========================================
+        // GANTI URL DI BAWAH INI DENGAN LINK GOOGLE APPS SCRIPT ANDA
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx9G6ONpxDpceTBSQnjdZzhyD0cvN6fxUHQVFq2KBhfX8JE65Qsij0FyLH9HDlvCqxjuQ/exec"; 
+        
+        // ==========================================
+        // STATE & VARIABEL APLIKASI
+        // ==========================================
+        let state = {
+            isAdmin: false,
+            adminPin: 'teknisirepair', // PIN Login
+            data: [],
+            settings: { theme: 'blue', hiddenCols: [] }
+        };
+
+        const themes = {
+            blue: { main: '#3b82f6', hover: '#2563eb', light: '#eff6ff', grad: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' },
+            emerald: { main: '#10b981', hover: '#059669', light: '#ecfdf5', grad: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' },
+            rose: { main: '#f43f5e', hover: '#e11d48', light: '#fff1f2', grad: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)' },
+            violet: { main: '#8b5cf6', hover: '#7c3aed', light: '#f5f3ff', grad: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' },
+            slate: { main: '#475569', hover: '#334155', light: '#f8fafc', grad: 'linear-gradient(135deg, #64748b 0%, #334155 100%)' }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
+            fetchData();
+        });
+
+        // ==========================================
+        // FUNGSI TEMA & PENGATURAN KOLOM
+        // ==========================================
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('repairSettings_v5');
+            if (savedSettings) state.settings = JSON.parse(savedSettings);
+            applyTheme(state.settings.theme);
+            applyColumnVisibility();
+            syncCheckboxes();
+        }
+
+        function saveSettings() { localStorage.setItem('repairSettings_v5', JSON.stringify(state.settings)); }
+
+        function changeTheme(colorKey) {
+            state.settings.theme = colorKey;
+            applyTheme(colorKey);
+            saveSettings();
+        }
+
+        function applyTheme(colorKey) {
+            const root = document.documentElement;
+            const theme = themes[colorKey] || themes['blue'];
+            root.style.setProperty('--theme-main', theme.main);
+            root.style.setProperty('--theme-hover', theme.hover);
+            root.style.setProperty('--theme-light', theme.light);
+            root.style.setProperty('--theme-gradient', theme.grad);
+        }
+
+        function toggleColumn(colKey, isVisible) {
+            if (isVisible) state.settings.hiddenCols = state.settings.hiddenCols.filter(c => c !== colKey);
+            else if (!state.settings.hiddenCols.includes(colKey)) state.settings.hiddenCols.push(colKey);
+            saveSettings();
+            applyColumnVisibility();
+        }
+
+        function applyColumnVisibility() {
+            const allCols = ['id', 'customer', 'barang', 'status', 'dokumentasi'];
+            allCols.forEach(col => {
+                const isHidden = state.settings.hiddenCols.includes(col);
+                document.querySelectorAll(`th[data-col="${col}"], td[data-col="${col}"]`).forEach(el => el.style.display = isHidden ? 'none' : '');
+            });
+        }
+
+        function syncCheckboxes() {
+            ['id', 'customer', 'barang', 'status', 'dokumentasi'].forEach(col => {
+                const cb = document.querySelector(`input[onchange="toggleColumn('${col}', this.checked)"]`);
+                if (cb) cb.checked = !state.settings.hiddenCols.includes(col);
+            });
+        }
+
+        // ==========================================
+        // FUNGSI AMBIL DATA & RENDER TABEL
+        // ==========================================
+        async function fetchData() {
+            showLoading(true);
+            // Cek apakah URL valid (bukan string kosong)
+            if (APPS_SCRIPT_URL && APPS_SCRIPT_URL.trim() !== "") {
+                try {
+                    const response = await fetch(APPS_SCRIPT_URL);
+                    const result = await response.json();
+                    if(result.success) state.data = result.data;
+                    else showToast("Gagal menyinkronkan data.", "error");
+                } catch (error) { showToast("Koneksi server gagal.", "error"); }
+            } else {
+                // Mock Data Offline (Untuk Preview jika Apps Script URL belum diisi)
+                const localData = localStorage.getItem('repairDataMock_v5');
+                if (localData) state.data = JSON.parse(localData);
+                else {
+                    state.data = [
+                        { ID: 'REP-2609-1001', 'Tanggal Masuk': '26/09/2026 09:15', 'Tanggal Keluar': '26/09/2026 14:00', Sales: 'Budi H.', Customer: 'PT. Maju', Barang: 'Laptop Lenovo T480', Qty: 1, Status: 'Selesai', 'Foto Pengecekan': 'https://placehold.co/600x400/3b82f6/ffffff?text=Cek+Awal', 'Foto Pengiriman': '' },
+                        { ID: 'REP-2609-1002', 'Tanggal Masuk': '26/09/2026 10:30', 'Tanggal Keluar': '27/09/2026 09:00', Sales: 'Siti R.', Customer: 'Toko Abadi', Barang: 'Printer Epson L3110', Qty: 2, Status: 'Sudah Dikirim', 'Foto Pengecekan': 'https://placehold.co/600x400/10b981/ffffff?text=Cek+Printer', 'Foto Pengiriman': 'https://placehold.co/600x400/06b6d4/ffffff?text=Dikirim' }
+                    ];
+                    localStorage.setItem('repairDataMock_v5', JSON.stringify(state.data));
+                }
+            }
+            updateStats();
+            renderTable();
+            showLoading(false);
+        }
+
+        function updateStats() {
+            document.getElementById('statTotal').innerText = state.data.length;
+            document.getElementById('statProses').innerText = state.data.filter(d => d.Status === 'Proses').length;
+            document.getElementById('statSelesai').innerText = state.data.filter(d => d.Status === 'Selesai').length;
+            document.getElementById('statDikirim').innerText = state.data.filter(d => d.Status === 'Sudah Dikirim').length;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            if (state.data.length === 0) {
+                document.getElementById('emptyState').classList.remove('hidden');
+                document.getElementById('emptyState').classList.add('flex');
+                return;
+            } else {
+                document.getElementById('emptyState').classList.add('hidden');
+                document.getElementById('emptyState').classList.remove('flex');
+            }
+
+            // Balik urutan agar data terbaru ada di atas
+            const sortedData = [...state.data].reverse();
+
+            sortedData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/50 transition-colors group";
+                
+                // Styling Status
+                let statusUI = '';
+                if(item.Status === 'Selesai') statusUI = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-semibold bg-green-50 text-green-700 border border-green-200"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>Selesai</span>`;
+                else if(item.Status === 'Sudah Dikirim') statusUI = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-semibold bg-cyan-50 text-cyan-700 border border-cyan-200"><span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>Sudah Dikirim</span>`;
+                else statusUI = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-semibold bg-yellow-50 text-yellow-700 border border-yellow-200"><span class="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse"></span>Proses</span>`;
+
+                // Handle Foto
+                let fotoCek = item['Foto Pengecekan'] || item.FotoPengecekan;
+                let fotoKirim = item['Foto Pengiriman'] || item.FotoPengiriman;
+
+                let btnFotoCek = fotoCek 
+                    ? `<button onclick="viewPhoto('${fotoCek}', 'Pengecekan Tiba: ${item.ID}')" class="text-blue-500 hover:text-blue-600 hover:bg-blue-50 p-1.5 sm:p-2 rounded-lg transition-colors border border-blue-100 bg-white shadow-sm active:scale-90" title="Lihat Foto Pengecekan"><i class="fa-solid fa-box-open text-base"></i></button>` : '';
+                
+                let btnFotoKirim = fotoKirim 
+                    ? `<button onclick="viewPhoto('${fotoKirim}', 'Pengiriman: ${item.ID}')" class="text-cyan-500 hover:text-cyan-600 hover:bg-cyan-50 p-1.5 sm:p-2 rounded-lg transition-colors border border-cyan-100 bg-white shadow-sm active:scale-90" title="Lihat Foto Pengiriman"><i class="fa-solid fa-truck-fast text-base"></i></button>` : '';
+
+                let dokumentasiUI = (btnFotoCek || btnFotoKirim) 
+                    ? `<div class="flex items-center justify-center gap-2">${btnFotoCek}${btnFotoKirim}</div>` 
+                    : `<span class="text-slate-300 text-xs italic">-</span>`;
+
+                let tglMasuk = item['Tanggal Masuk'] || '-';
+                let tglKeluar = item['Tanggal Keluar'] || '';
+
+                tr.innerHTML = `
+                    <td data-col="id" class="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                        <div class="text-xs sm:text-sm font-bold text-slate-800">${item.ID}</div>
+                        <div class="text-[10px] sm:text-xs text-slate-500 mt-0.5 flex items-center gap-1"><i class="fa-solid fa-arrow-right-to-bracket text-blue-400"></i> ${tglMasuk}</div>
+                        ${tglKeluar ? `<div class="text-[10px] sm:text-xs text-emerald-600 mt-0.5 font-medium flex items-center gap-1"><i class="fa-solid fa-check-double"></i> ${tglKeluar}</div>` : `<div class="text-[10px] sm:text-xs text-slate-400 mt-0.5 italic flex items-center gap-1 opacity-70"><i class="fa-regular fa-clock"></i> dlm pengerjaan</div>`}
+                    </td>
+                    <td data-col="customer" class="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                        <div class="text-xs sm:text-sm text-slate-800 font-medium">${item.Customer}</div>
+                        <div class="text-[10px] sm:text-xs text-slate-500 mt-0.5 flex items-center gap-1"><i class="fa-regular fa-user text-slate-400"></i>${item.Sales}</div>
+                    </td>
+                    <td data-col="barang" class="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap max-w-[200px] sm:max-w-xs truncate">
+                        <div class="text-xs sm:text-sm text-slate-800 font-medium truncate" title="${item.Barang}">${item.Barang}</div>
+                        <div class="text-[10px] sm:text-xs text-slate-500 mt-1 bg-slate-100 inline-flex items-center justify-center px-1.5 py-0.5 rounded font-semibold border border-slate-200">Qty: ${item.Qty}</div>
+                    </td>
+                    <td data-col="status" class="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                        ${statusUI}
+                    </td>
+                    <td data-col="dokumentasi" class="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-center">
+                        ${dokumentasiUI}
+                    </td>
+                    <!-- TOMBOL UPDATE KHUSUS ADMIN ADA DI SINI -->
+                    <td class="admin-only px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-xs sm:text-sm font-medium ${state.isAdmin ? '' : 'hidden'}">
+                        <button onclick="openUpdateModal('${item.ID}', '${item.Barang.replace(/'/g, "\\'")}', '${item.Status}')" class="text-slate-500 hover:text-blue-600 bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-200 px-3 py-2 sm:py-1.5 rounded-lg transition-all shadow-sm group-hover:shadow group-hover:border-slate-300 flex items-center gap-2 ml-auto active:scale-95">
+                            <i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">Update</span>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            updateAdminUI();
+            applyColumnVisibility(); 
+        }
+
+        // ==========================================
+        // FUNGSI LOGIN ADMIN
+        // ==========================================
+        function login() {
+            const pin = document.getElementById('pinInput').value;
+            if (pin === state.adminPin) {
+                state.isAdmin = true;
+                toggleModal('loginModal');
+                document.getElementById('pinInput').value = '';
+                showToast("Berhasil masuk. Mode Admin aktif.", "success");
+                renderTable();
+            } else {
+                showToast("PIN Tidak Valid!", "error");
+            }
+        }
+
+        function logoutAdmin() {
+            state.isAdmin = false;
+            showToast("Mode Admin dinonaktifkan.", "info");
+            renderTable();
+        }
+
+        function updateAdminUI() {
+            const addBtn = document.getElementById('addBtn');
+            const adminLoginBtn = document.getElementById('adminLoginBtn');
+            const adminControls = document.getElementById('adminControls');
+            const actionHeader = document.getElementById('actionHeader');
+
+            if (state.isAdmin) {
+                // Tampilkan fitur admin
+                adminLoginBtn.classList.add('hidden');
+                adminControls.classList.remove('hidden');
+                addBtn.classList.remove('hidden'); addBtn.classList.add('flex');
+                actionHeader.classList.remove('hidden');
+            } else {
+                // Sembunyikan fitur admin
+                adminLoginBtn.classList.remove('hidden');
+                adminControls.classList.add('hidden');
+                addBtn.classList.add('hidden'); addBtn.classList.remove('flex');
+                actionHeader.classList.add('hidden');
+            }
+        }
+
+        // ==========================================
+        // FUNGSI KIRIM DATA (TAMBAH & UPDATE)
+        // ==========================================
+        async function submitNewItem(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitAddBtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
+            btn.disabled = true;
+
+            const fileInput = document.getElementById('addFotoPengecekan');
+            let base64Photo = fileInput.files.length > 0 ? await fileToBase64(fileInput.files[0]) : null;
+
+            const payload = {
+                action: 'add', adminPin: state.adminPin,
+                sales: document.getElementById('addSales').value,
+                customer: document.getElementById('addCustomer').value,
+                barang: document.getElementById('addBarang').value,
+                qty: document.getElementById('addQty').value,
+                fotoPengecekanBase64: base64Photo
+            };
+
+            if (APPS_SCRIPT_URL && APPS_SCRIPT_URL.trim() !== "") {
+                await sendToBackend(payload);
+            } else {
+                // Mock Logic untuk Offline
+                const d = new Date();
+                const ts = `${('0'+d.getDate()).slice(-2)}/${('0'+(d.getMonth()+1)).slice(-2)}/${d.getFullYear()} ${('0'+d.getHours()).slice(-2)}:${('0'+d.getMinutes()).slice(-2)}`;
+                state.data.push({
+                    ID: 'REP-' + d.getFullYear().toString().slice(-2) + ('0'+(d.getMonth()+1)).slice(-2) + '-' + Math.floor(1000 + Math.random()*9000),
+                    'Tanggal Masuk': ts, 'Tanggal Keluar': '',
+                    Sales: payload.sales, Customer: payload.customer,
+                    Barang: payload.barang, Qty: payload.qty,
+                    Status: 'Proses', 'Foto Pengecekan': payload.fotoPengecekanBase64 || '', 'Foto Pengiriman': ''
+                });
+                localStorage.setItem('repairDataMock_v5', JSON.stringify(state.data));
+                showToast("Data ditambahkan (Mode Offline)", "success");
+                updateStats(); renderTable();
+            }
+
+            document.getElementById('addForm').reset();
+            toggleModal('addModal');
+            btn.innerHTML = '<i class="fa-solid fa-save"></i> Simpan Data';
+            btn.disabled = false;
+        }
+
+        async function submitUpdateStatus(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitUpdateBtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+            btn.disabled = true;
+
+            const id = document.getElementById('updateId').value;
+            const newStatus = document.getElementById('updateStatus').value;
+            
+            const fileInputKirim = document.getElementById('updateFotoPengiriman');
+            let base64PhotoKirim = fileInputKirim.files.length > 0 ? await fileToBase64(fileInputKirim.files[0]) : null;
+
+            const payload = { 
+                action: 'update', 
+                adminPin: state.adminPin, 
+                id: id, 
+                status: newStatus,
+                fotoPengirimanBase64: base64PhotoKirim 
+            };
+
+            if (APPS_SCRIPT_URL && APPS_SCRIPT_URL.trim() !== "") {
+                await sendToBackend(payload);
+            } else {
+                // Mock Logic untuk Offline
+                const idx = state.data.findIndex(item => item.ID === id);
+                if (idx !== -1) {
+                    state.data[idx].Status = newStatus;
+                    if (newStatus === 'Selesai' || newStatus === 'Sudah Dikirim') {
+                        const d = new Date();
+                        state.data[idx]['Tanggal Keluar'] = `${('0'+d.getDate()).slice(-2)}/${('0'+(d.getMonth()+1)).slice(-2)}/${d.getFullYear()} ${('0'+d.getHours()).slice(-2)}:${('0'+d.getMinutes()).slice(-2)}`;
+                    } else state.data[idx]['Tanggal Keluar'] = '';
+                    
+                    if (base64PhotoKirim) state.data[idx]['Foto Pengiriman'] = base64PhotoKirim;
+                    
+                    localStorage.setItem('repairDataMock_v5', JSON.stringify(state.data));
+                    showToast("Status diupdate (Mode Offline)", "success");
+                    updateStats(); renderTable();
+                }
+            }
+
+            document.getElementById('updateForm').reset();
+            toggleModal('updateModal');
+            btn.innerHTML = 'Simpan Perubahan';
+            btn.disabled = false;
+        }
+
+        // ==========================================
+        // FUNGSI UTILITAS BANTUAN
+        // ==========================================
+        async function sendToBackend(payload) {
+             try {
+                const response = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const result = await response.json();
+                if(result.success) { showToast(result.message, "success"); await fetchData(); } 
+                else showToast(result.message || "Akses Ditolak", "error");
+            } catch (error) { showToast("Gagal terhubung ke server Google", "error"); }
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader(); reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result); reader.onerror = e => reject(e);
+            });
+        }
+
+        function toggleModal(modalID) {
+            const modal = document.getElementById(modalID);
+            const isOpening = !modal.classList.contains('active');
+            
+            if (isOpening) {
+                modal.classList.remove('invisible');
+                setTimeout(() => { modal.classList.add('active'); }, 10);
+                document.body.classList.add('modal-open');
+            } else {
+                modal.classList.remove('active');
+                setTimeout(() => { modal.classList.add('invisible'); }, 300);
+                document.body.classList.remove('modal-open');
+            }
+        }
+        
+        // Membuka modal update dan memuat data eksisting
+        function openUpdateModal(id, barang, currentStatus) {
+            document.getElementById('updateId').value = id;
+            document.getElementById('updateIdText').innerText = id;
+            document.getElementById('updateBarangText').innerText = barang;
+            document.getElementById('updateStatus').value = currentStatus;
+            document.getElementById('updateFotoPengiriman').value = ''; // Reset input foto
+            toggleModal('updateModal');
+        }
+
+        function viewPhoto(url, title) {
+            document.getElementById('photoViewer').src = url;
+            document.getElementById('photoTitle').innerText = title;
+            toggleModal('photoModal');
+        }
+
+        function showLoading(show) {
+            if(show) {
+                document.getElementById('loadingIndicator').classList.remove('hidden');
+                document.getElementById('tableBody').classList.add('hidden');
+                document.getElementById('emptyState').classList.add('hidden');
+            } else {
+                document.getElementById('loadingIndicator').classList.add('hidden');
+                document.getElementById('tableBody').classList.remove('hidden');
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            let style = type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-700 shadow-emerald-900/10' : 
+                        type === 'error' ? 'bg-red-50 border-red-200 text-red-700 shadow-red-900/10' : 
+                        'bg-blue-50 border-blue-200 text-blue-700 shadow-blue-900/10';
+            let icon = type === 'success' ? 'fa-circle-check text-emerald-500' : 
+                       type === 'error' ? 'fa-circle-xmark text-red-500' : 
+                       'fa-circle-info text-blue-500';
+
+            toast.className = `flex items-center p-3.5 sm:p-4 border rounded-xl sm:rounded-2xl shadow-xl transform transition-all duration-400 translate-y-12 sm:translate-y-0 sm:translate-x-12 opacity-0 font-medium text-xs sm:text-sm backdrop-blur-md ${style} pointer-events-auto`;
+            
+            toast.innerHTML = `
+                <i class="fa-solid ${icon} mr-3 text-lg"></i> 
+                <span class="flex-grow">${message}</span>
+                <button onclick="this.parentElement.remove()" class="ml-2 text-slate-400 hover:text-slate-700 active:scale-90"><i class="fa-solid fa-times"></i></button>
+            `;
+            
+            document.getElementById('toastContainer').appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                setTimeout(() => { toast.classList.remove('translate-y-12', 'sm:translate-x-12', 'opacity-0'); }, 10);
+            });
+
+            setTimeout(() => {
+                if(document.body.contains(toast)) {
+                    toast.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:translate-x-12', 'scale-95');
+                    setTimeout(() => { if(document.body.contains(toast)) toast.remove(); }, 400);
+                }
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

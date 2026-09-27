@@ -359,8 +359,21 @@
         // --- State Management ---
         let isAdmin = false;
         
-        // Ubah baris di bawah ini. Hapus localStorage dan ganti dengan URL Anda di dalam tanda kutip.
+        // ===============================================================================
+        // 👇 TEMPAT MEMASUKKAN KEDUA LINK GOOGLE APPS SCRIPT ANDA 👇
+        // ===============================================================================
+        
+        // 1. AKUN A: URL untuk Google Sheets (Tempat simpan Data Teks & Link Foto)
+        // Ganti tulisan di dalam tanda kutip dengan link Apps Script Akun A Anda
         let dbUrl = 'https://script.google.com/macros/s/AKfycbzEjVATGKZoQLcm0b9b-ZP42uJRTsu4m750WR24fBsWYVRm3zxO2tFKHnTHx_8oCxpG/exec'; 
+        
+        // 2. AKUN B: URL untuk Google Drive (Tempat upload File Foto Asli)
+        // Ganti tulisan di dalam tanda kutip dengan link Apps Script Akun B Anda
+        let uploadUrl = 'https://script.google.com/macros/s/AKfycbwaDMAXc8kZ13D0FWqO9fB5sU8OSM6vIQ8VluU2Id3fZd6DXKfVE7iO2MuJU3OHvQt9/exec'; 
+        
+        // ===============================================================================
+        // 👆 SELESAI MEMASUKKAN LINK 👆
+        // ===============================================================================
         
         let appData = [];
         let isLoading = false;
@@ -693,11 +706,11 @@
                 reader.onload = function(e) {
                     const img = new Image();
                     img.onload = function() {
-                        // Proses kompresi gambar agar dijamin muat di cell spreadsheet (Max 50.000 karakter)
+                        // Karena kita simpan di Drive, kualitas bisa dinaikkan secara signifikan
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        const MAX_DIMENSION = 250; // Resolusi dioptimalkan untuk performa Google Sheets
+                        const MAX_DIMENSION = 800; // Resolusi dinaikkan jadi 800px untuk kejelasan detail servis
                         
                         if (width > height) {
                             if (width > MAX_DIMENSION) {
@@ -716,12 +729,11 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
                         
-                        // Kompres jadi JPEG dengan quality 0.5 untuk memperkecil base64 string secara drastis
-                        const dataURL = canvas.toDataURL('image/jpeg', 0.5);
+                        // Kompresi JPEG standar (kualitas 0.8 sudah sangat bagus dan ringan untuk Drive)
+                        const dataURL = canvas.toDataURL('image/jpeg', 0.8);
                         
                         showPreview(previewId, dataURL);
                         
-                        // Perbaikan Bug: Menghubungkan ID data foto secara spesifik
                         if (previewId === 'preview_masuk') {
                             document.getElementById('f_foto_masuk_base64').value = dataURL;
                         } else if (previewId === 'preview_keluar') {
@@ -772,7 +784,8 @@
         function setupViewPhoto(imgId, noImgId, src) {
             const img = document.getElementById(imgId);
             const noImg = document.getElementById(noImgId);
-            if (src && src.length > 10) { // arbitrary check for valid base64 or url length
+            // Validasi diubah sedikit untuk mendukung URL Google Drive
+            if (src && src.length > 5) { 
                 img.src = src;
                 img.classList.remove('hidden');
                 noImg.classList.add('hidden');
@@ -783,77 +796,110 @@
             }
         }
 
+        // Fungsi khusus untuk mengunggah foto ke Google Drive
+        async function uploadImageToDrive(base64Data, id, type) {
+            if (!uploadUrl) throw new Error("URL Upload Google Drive belum diatur!");
+            
+            const payload = {
+                filename: `${id}_${type}_${new Date().getTime()}.jpg`,
+                base64: base64Data
+            };
+            
+            const response = await fetch(uploadUrl, {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                return result.url; // Mengembalikan link gambar Google Drive
+            } else {
+                throw new Error(result.message || 'Gagal mengupload gambar');
+            }
+        }
+
         async function handleFormSubmit(e) {
             e.preventDefault();
             
-            // Gather data
             const isEdit = document.getElementById('isEdit').value === 'true';
             const originalId = document.getElementById('originalId').value;
+            const transactionId = document.getElementById('f_id').value.trim();
             
-            const payload = {
-                action: isEdit ? 'update' : 'create',
-                originalId: originalId,
-                data: {
-                    id: document.getElementById('f_id').value.trim(),
-                    tglMasuk: document.getElementById('f_tgl_masuk').value,
-                    tglKeluar: document.getElementById('f_tgl_keluar').value,
-                    sales: document.getElementById('f_sales').value.trim(),
-                    customer: document.getElementById('f_customer').value.trim(),
-                    barang: document.getElementById('f_barang').value.trim(),
-                    qty: parseInt(document.getElementById('f_qty').value),
-                    status: document.getElementById('f_status').value,
-                    fotoMasuk: document.getElementById('f_foto_masuk_base64').value, // base64 string
-                    fotoKeluar: document.getElementById('f_foto_keluar_base64').value
-                }
-            };
+            let fotoMasukData = document.getElementById('f_foto_masuk_base64').value;
+            let fotoKeluarData = document.getElementById('f_foto_keluar_base64').value;
 
             const submitBtn = document.getElementById('submitBtn');
             const submitBtnText = document.getElementById('submitBtnText');
             const submitLoader = document.getElementById('submitLoader');
 
-            // Set loading state
             submitBtn.disabled = true;
-            submitBtnText.textContent = 'Menyimpan...';
             submitLoader.classList.remove('hidden');
 
             try {
+                // TAHAP 1: Upload Foto ke Google Drive (Akun B) jika ada foto baru
+                // Foto baru ditandai dengan awalan 'data:image' (Base64). Jika URL HTTP (Drive lama), lewati.
+                
+                if (fotoMasukData.startsWith('data:image')) {
+                    submitBtnText.textContent = 'Mengunggah Foto 1...';
+                    fotoMasukData = await uploadImageToDrive(fotoMasukData, transactionId, 'Masuk');
+                }
+                
+                if (fotoKeluarData.startsWith('data:image')) {
+                    submitBtnText.textContent = 'Mengunggah Foto 2...';
+                    fotoKeluarData = await uploadImageToDrive(fotoKeluarData, transactionId, 'Keluar');
+                }
+
+                // TAHAP 2: Simpan Data ke Google Sheets (Akun A)
+                submitBtnText.textContent = 'Menyimpan Data...';
+                
+                const payload = {
+                    action: isEdit ? 'update' : 'create',
+                    originalId: originalId,
+                    data: {
+                        id: transactionId,
+                        tglMasuk: document.getElementById('f_tgl_masuk').value,
+                        tglKeluar: document.getElementById('f_tgl_keluar').value,
+                        sales: document.getElementById('f_sales').value.trim(),
+                        customer: document.getElementById('f_customer').value.trim(),
+                        barang: document.getElementById('f_barang').value.trim(),
+                        qty: parseInt(document.getElementById('f_qty').value),
+                        status: document.getElementById('f_status').value,
+                        fotoMasuk: fotoMasukData, // Sekarang ini berisi LINK GOOGLE DRIVE
+                        fotoKeluar: fotoKeluarData // Sekarang ini berisi LINK GOOGLE DRIVE
+                    }
+                };
+
                 if (dbUrl) {
-                    // Save to Google Sheets
                     const response = await fetch(dbUrl, {
                         method: 'POST',
-                        body: JSON.stringify(payload), // Send as raw body to GAS
+                        body: JSON.stringify(payload),
                     });
                     
                     const result = await response.json();
                     if(result.status !== 'success') {
                         throw new Error(result.message || 'Gagal menyimpan ke server');
                     }
-                    showToast('Data berhasil disimpan ke Google Sheets');
-                    fetchData(); // Reload from server
+                    showToast('Data berhasil disimpan');
+                    fetchData(); 
                 } else {
-                    // Save locally (Simulation Mode)
-                    await new Promise(resolve => setTimeout(resolve, 600)); // fake delay
-                    
+                    // Fallback Simulasi Lokal
+                    await new Promise(resolve => setTimeout(resolve, 600)); 
                     if (isEdit) {
                         const index = appData.findIndex(item => item.id === originalId);
                         if (index !== -1) appData[index] = payload.data;
                     } else {
-                        // Check duplicate ID
-                        if(appData.find(i => i.id === payload.data.id)) {
-                             throw new Error('ID Transaksi sudah digunakan');
-                        }
+                        if(appData.find(i => i.id === payload.data.id)) throw new Error('ID Transaksi sudah ada');
                         appData.push(payload.data);
                     }
                     saveLocalData();
                     renderTable();
-                    showToast(isEdit ? 'Data lokal diperbarui' : 'Data lokal ditambahkan');
+                    showToast('Data lokal disimpan');
                 }
                 closeModal('formModal');
             } catch (error) {
                 console.error("Save error:", error);
                 showToast(error.message, 'error');
             } finally {
-                // Reset loading state
                 submitBtn.disabled = false;
                 submitBtnText.textContent = 'Simpan Data';
                 submitLoader.classList.add('hidden');

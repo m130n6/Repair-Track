@@ -13,7 +13,6 @@
         .modal-leave { opacity: 1; transform: scale(1); }
         .modal-leave-active { opacity: 0; transform: scale(0.95); transition: opacity 0.2s, transform 0.2s; }
         
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -38,8 +37,8 @@
                     <h1 class="text-xl font-bold text-gray-900 hidden sm:block">Service Tracker</h1>
                 </div>
                 
-                <div class="flex items-center gap-2 sm:gap-4 flex-1 justify-end sm:flex-none">
-                    <div class="relative w-full max-w-[150px] sm:max-w-none sm:w-64">
+                <div class="flex items-center gap-2 flex-1 justify-end">
+                    <div class="relative w-full max-w-[200px] sm:max-w-none sm:w-64">
                         <input type="text" id="searchInput" placeholder="Cari ID / Cust..." class="w-full pl-9 pr-3 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all">
                         <svg class="w-4 h-4 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
@@ -123,7 +122,7 @@
                 </div>
                 <div class="space-y-4">
                     <div>
-                        <input type="password" id="passwordInput" placeholder="Password Admin" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg tracking-widest">
+                        <input type="password" id="passwordInput" placeholder="Masukkan Sandi Admin" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg tracking-widest">
                     </div>
                     <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors">
                         Masuk
@@ -138,17 +137,17 @@
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden transform transition-all">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-5">
-                    <h3 class="text-xl font-bold text-gray-900">Otorisasi Pengaturan</h3>
+                    <h3 class="text-xl font-bold text-gray-900">Keamanan Database</h3>
                     <button onclick="closeModal('settingsAuthModal')" class="text-gray-400 hover:text-gray-600 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
                 <div class="space-y-4">
                     <div>
-                        <input type="password" id="settingsPasswordInput" placeholder="Password Database" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg tracking-widest">
+                        <input type="password" id="settingsPasswordInput" placeholder="Sandi Pengaturan" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center text-lg tracking-widest">
                     </div>
                     <button onclick="handleSettingsAuth()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors">
-                        Verifikasi
+                        Buka Pengaturan
                     </button>
                 </div>
             </div>
@@ -172,7 +171,7 @@
                     </div>
                     <div class="pt-2 flex flex-col sm:flex-row justify-end gap-3">
                         <button onclick="closeModal('settingsModal')" class="w-full sm:w-auto px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium">Batal</button>
-                        <button onclick="saveSettings()" class="w-full sm:w-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium">Simpan URL</button>
+                        <button onclick="saveSettings()" class="w-full sm:w-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium">Simpan & Muat Ulang</button>
                     </div>
                 </div>
             </div>
@@ -208,6 +207,8 @@
                                 <option value="Selesai">Selesai</option>
                                 <option value="Sudah Diambil">Sudah Diambil</option>
                                 <option value="Batal">Batal</option>
+                                <option value="Dipinjam">Dipinjam</option>
+                                <option value="Sudah Dikembalikan">Sudah Dikembalikan</option>
                             </select>
                         </div>
                         <div>
@@ -231,12 +232,14 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nama Sales/Penerima</label>
                             <input type="text" id="f_sales" required placeholder="Nama petugas/sales" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
                         </div>
-                        <div class="md:col-span-2 flex flex-col sm:flex-row gap-4">
+                        
+                        <!-- Perbaikan Responsif pada input Barang dan Qty -->
+                        <div class="md:col-span-2 flex flex-col sm:flex-row gap-5">
                             <div class="flex-1">
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Nama Barang & Kendala</label>
                                 <input type="text" id="f_barang" required placeholder="Contoh: Laptop Asus - Mati Total" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
                             </div>
-                            <div class="w-full sm:w-24">
+                            <div class="w-full sm:w-28">
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Qty</label>
                                 <input type="number" id="f_qty" required min="1" value="1" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
                             </div>
@@ -245,35 +248,55 @@
 
                     <hr class="border-gray-200">
 
+                    <!-- Section 3: Foto (Tampilan Kotak Diperbesar untuk klik) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label class="block border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition-colors w-full">
+                        <!-- Kotak Foto Pengecekan -->
+                        <div class="relative w-full border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors text-center overflow-hidden flex flex-col justify-center min-h-[140px]">
+                            <!-- Input asli ditimpa agar menutupi seluruh kotak transparan -->
+                            <input type="file" id="f_foto_masuk" accept="image/*" onchange="previewFile(this, 'preview_masuk')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            
+                            <!-- Konten panduan (bawah layar input) -->
+                            <div class="p-4" id="placeholder_masuk">
                                 <span class="block text-sm font-medium text-gray-700 mb-2">Foto Pengecekan (Masuk)</span>
-                                <span class="inline-block px-4 py-2 bg-blue-50 text-blue-700 text-sm font-semibold rounded-full hover:bg-blue-100 transition-colors mb-2">Pilih Foto / Ambil Gambar</span>
-                                <input type="file" id="f_foto_masuk" accept="image/*" class="hidden" onchange="previewFile(this, 'preview_masuk')">
-                                <div class="mt-2 hidden w-full flex justify-center" id="preview_masuk_container">
-                                    <img id="preview_masuk" src="" class="h-24 rounded object-cover shadow">
-                                    <input type="hidden" id="f_foto_masuk_base64">
-                                </div>
-                            </label>
+                                <span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 text-sm font-semibold rounded-full pointer-events-none">Pilih Foto / Ambil Gambar</span>
+                            </div>
+
+                            <!-- Kontainer Preview -->
+                            <div class="hidden absolute inset-0 w-full h-full bg-white z-20 flex flex-col items-center justify-center p-2" id="preview_masuk_container">
+                                <img id="preview_masuk" src="" class="max-h-full max-w-full rounded object-contain shadow-sm pointer-events-none">
+                                <button type="button" onclick="hapusFoto('masuk')" class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 shadow-md hover:bg-red-700 z-30">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                                <input type="hidden" id="f_foto_masuk_base64">
+                            </div>
                         </div>
                         
-                        <div>
-                            <label class="block border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-50 transition-colors w-full">
-                                <span class="block text-sm font-medium text-gray-700 mb-2">Foto Pengiriman (Selesai)</span>
-                                <span class="inline-block px-4 py-2 bg-blue-50 text-blue-700 text-sm font-semibold rounded-full hover:bg-blue-100 transition-colors mb-2">Pilih Foto / Ambil Gambar</span>
-                                <input type="file" id="f_foto_keluar" accept="image/*" class="hidden" onchange="previewFile(this, 'preview_keluar')">
-                                <div class="mt-2 hidden w-full flex justify-center" id="preview_keluar_container">
-                                    <img id="preview_keluar" src="" class="h-24 rounded object-cover shadow">
-                                    <input type="hidden" id="f_foto_keluar_base64">
-                                </div>
-                            </label>
+                        <!-- Kotak Foto Pengiriman -->
+                        <div class="relative w-full border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors text-center overflow-hidden flex flex-col justify-center min-h-[140px]">
+                            <!-- Input asli ditimpa agar menutupi seluruh kotak transparan -->
+                            <input type="file" id="f_foto_keluar" accept="image/*" onchange="previewFile(this, 'preview_keluar')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            
+                            <!-- Konten panduan (bawah layar input) -->
+                            <div class="p-4" id="placeholder_keluar">
+                                <span class="block text-sm font-medium text-gray-700 mb-2">Foto Pengiriman (Keluar)</span>
+                                <span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 text-sm font-semibold rounded-full pointer-events-none">Pilih Foto / Ambil Gambar</span>
+                            </div>
+
+                            <!-- Kontainer Preview -->
+                            <div class="hidden absolute inset-0 w-full h-full bg-white z-20 flex flex-col items-center justify-center p-2" id="preview_keluar_container">
+                                <img id="preview_keluar" src="" class="max-h-full max-w-full rounded object-contain shadow-sm pointer-events-none">
+                                <button type="button" onclick="hapusFoto('keluar')" class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 shadow-md hover:bg-red-700 z-30">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                                <input type="hidden" id="f_foto_keluar_base64">
+                            </div>
                         </div>
                     </div>
 
                     <div class="pt-4 flex flex-col sm:flex-row justify-end gap-3 border-t">
-                        <button type="button" onclick="closeModal('formModal')" class="w-full sm:w-auto px-5 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors">Batal</button>
-                        <button type="submit" id="submitBtn" class="w-full sm:w-auto flex justify-center items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium shadow-sm transition-colors">
+                        <!-- Perbaikan tombol menjadi full width di HP -->
+                        <button type="button" onclick="closeModal('formModal')" class="w-full sm:w-auto px-5 py-3 sm:py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors">Batal</button>
+                        <button type="submit" id="submitBtn" class="w-full sm:w-auto flex justify-center items-center gap-2 px-5 py-3 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium shadow-sm transition-colors">
                             <span id="submitBtnText">Simpan Data</span>
                             <div id="submitLoader" class="loader hidden !w-4 !h-4 !border-2 !border-white !border-top-transparent"></div>
                         </button>
@@ -297,15 +320,16 @@
             </div>
             
             <div class="p-4 sm:p-6 overflow-y-auto flex-1">
+                <!-- Perbaikan Grid Informasi untuk HP -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-sm mb-6">
                     <div><p class="text-gray-500 font-medium">Customer</p><p class="font-semibold text-gray-900 text-base" id="v_customer">-</p></div>
                     <div><p class="text-gray-500 font-medium">Sales</p><p class="font-semibold text-gray-900" id="v_sales">-</p></div>
                     <div class="sm:col-span-2"><p class="text-gray-500 font-medium">Barang & Qty</p><p class="font-semibold text-gray-900" id="v_barang">-</p></div>
                     <div><p class="text-gray-500 font-medium">Tanggal Masuk</p><p class="font-semibold text-gray-900" id="v_tgl_masuk">-</p></div>
                     <div><p class="text-gray-500 font-medium">Tanggal Keluar</p><p class="font-semibold text-gray-900" id="v_tgl_keluar">-</p></div>
-                    <div class="sm:col-span-2">
+                    <div class="sm:col-span-2 mt-2">
                         <p class="text-gray-500 font-medium mb-1">Status Terkini</p>
-                        <span id="v_status_badge" class="px-3 py-1 rounded-full text-xs font-bold">-</span>
+                        <span id="v_status_badge" class="px-3 py-1 rounded-full text-xs font-bold inline-block">-</span>
                     </div>
                 </div>
 
@@ -328,7 +352,7 @@
             </div>
             
             <div class="p-4 border-t bg-gray-50 flex justify-end">
-                <button onclick="closeModal('viewModal')" class="w-full sm:w-auto px-5 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-medium shadow-sm">Tutup</button>
+                <button onclick="closeModal('viewModal')" class="w-full sm:w-auto px-5 py-3 sm:py-2.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-medium shadow-sm">Tutup</button>
             </div>
         </div>
     </div>
@@ -341,13 +365,11 @@
         let isAdmin = false;
         
         // ===============================================================================
-        // 👇 TEMPAT MEMASUKKAN LINK GOOGLE APPS SCRIPT (CUKUP 1 LINK SAJA) 👇
+        // 👇 TEMPAT MEMASUKKAN LINK GOOGLE APPS SCRIPT ANDA (KINI CUKUP 1 LINK) 👇
         // ===============================================================================
         
         let dbUrl = 'https://script.google.com/macros/s/AKfycbw7kUnOtZCq_Dm9BX8m8VdUfss1yP1rRB7GoilxfHZ9iKCwADrGlibaPVBSrCbZSBMYDQ/exec'; 
         
-        // ===============================================================================
-        // 👆 SELESAI MEMASUKKAN LINK 👆
         // ===============================================================================
         
         let appData = [];
@@ -359,11 +381,12 @@
             'Menunggu Sparepart': 'bg-orange-100 text-orange-800 border-orange-200',
             'Selesai': 'bg-green-100 text-green-800 border-green-200',
             'Sudah Diambil': 'bg-blue-100 text-blue-800 border-blue-200',
-            'Batal': 'bg-red-100 text-red-800 border-red-200'
+            'Batal': 'bg-red-100 text-red-800 border-red-200',
+            'Dipinjam': 'bg-purple-100 text-purple-800 border-purple-200',
+            'Sudah Dikembalikan': 'bg-teal-100 text-teal-800 border-teal-200'
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Load custom dbUrl if saved in settings
             const savedUrl = localStorage.getItem('gas_db_url');
             if(savedUrl) {
                 dbUrl = savedUrl;
@@ -387,7 +410,7 @@
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             const colors = type === 'success' ? 'bg-green-600' : (type === 'error' ? 'bg-red-600' : 'bg-blue-600');
-            toast.className = `${colors} text-white px-4 py-3 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2 transform transition-all translate-y-4 opacity-0`;
+            toast.className = `${colors} text-white px-4 py-3 rounded-lg shadow-lg text-sm font-medium flex items-center gap-2 transform transition-all translate-y-4 opacity-0 z-[100]`;
             
             const icon = type === 'success' 
                 ? `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`
@@ -424,7 +447,6 @@
                 isAdmin = false;
                 document.getElementById('authBtn').classList.replace('bg-red-50', 'bg-gray-100');
                 document.getElementById('authBtn').classList.replace('text-red-700', 'text-gray-700');
-                document.getElementById('authBtn').title = 'Admin Login';
                 document.getElementById('addBtn').classList.add('hidden');
                 document.getElementById('settingsBtn').classList.add('hidden');
                 showToast('Berhasil keluar (Logout)', 'info');
@@ -442,14 +464,13 @@
                 isAdmin = true;
                 document.getElementById('authBtn').classList.replace('bg-gray-100', 'bg-red-50');
                 document.getElementById('authBtn').classList.replace('text-gray-700', 'text-red-700');
-                document.getElementById('authBtn').title = 'Logout Admin';
                 document.getElementById('addBtn').classList.remove('hidden');
                 document.getElementById('settingsBtn').classList.remove('hidden');
                 closeModal('loginModal');
                 showToast('Login berhasil sebagai Admin');
                 renderTable();
             } else {
-                showToast('Password Admin salah!', 'error');
+                showToast('Sandi Admin salah!', 'error');
             }
         }
 
@@ -465,7 +486,7 @@
                 closeModal('settingsAuthModal');
                 openModal('settingsModal');
             } else {
-                showToast('Password Pengaturan salah!', 'error');
+                showToast('Sandi Pengaturan salah!', 'error');
             }
         }
 
@@ -521,8 +542,7 @@
                 catch (e) { appData = []; }
             } else {
                 appData = [
-                    { id: 'REP-001', tglMasuk: '2023-10-01', tglKeluar: '', sales: 'Budi', customer: 'Andi', barang: 'Laptop Asus ROG', qty: 1, status: 'Sedang Diperbaiki', fotoMasuk: '', fotoKeluar: '' },
-                    { id: 'REP-002', tglMasuk: '2023-10-05', tglKeluar: '2023-10-08', sales: 'Siti', customer: 'Citra', barang: 'Printer Epson L3110', qty: 2, status: 'Selesai', fotoMasuk: '', fotoKeluar: '' }
+                    { id: 'REP-001', tglMasuk: '2023-10-01', tglKeluar: '', sales: 'Budi', customer: 'Andi', barang: 'Laptop Asus ROG', qty: 1, status: 'Sedang Diperbaiki', fotoMasuk: '', fotoKeluar: '' }
                 ];
                 saveLocalData();
             }
@@ -570,7 +590,7 @@
                 tbody.innerHTML = filteredData.map(item => {
                     const badgeClass = statusColors[item.status] || 'bg-gray-100 text-gray-800';
                     return `
-                    <tr class="hover:bg-gray-50 transition-colors">
+                    <tr class="hover:bg-gray-50 transition-colors border-b">
                         <td class="p-4 font-medium text-gray-900">${item.id || '-'}</td>
                         <td class="p-4">
                             <div class="font-medium text-gray-900">${item.customer || '-'}</div>
@@ -588,11 +608,11 @@
                         </td>
                         <td class="p-4 text-center whitespace-nowrap">
                             <button onclick="viewData('${item.id}')" class="text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 p-2 rounded-lg transition-colors mr-1" title="Lihat Detail">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                             </button>
                             ${isAdmin ? `
                             <button onclick="editData('${item.id}')" class="text-amber-600 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 p-2 rounded-lg transition-colors" title="Edit Data">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             </button>
                             ` : ''}
                         </td>
@@ -606,6 +626,18 @@
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
             try { return new Date(dateStr).toLocaleDateString('id-ID', options); } 
             catch (e) { return dateStr; }
+        }
+
+        function hapusFoto(jenis) {
+            document.getElementById('f_foto_' + jenis).value = '';
+            document.getElementById('f_foto_' + jenis + '_base64').value = '';
+            document.getElementById('preview_' + jenis + '_container').classList.add('hidden');
+        }
+
+        function resetForm() {
+            document.getElementById('repairForm').reset();
+            hapusFoto('masuk');
+            hapusFoto('keluar');
         }
 
         function openFormModal(isEditMode = false, data = null) {
@@ -630,11 +662,11 @@
                 document.getElementById('f_status').value = data.status || 'Menunggu Pengecekan';
                 
                 if (data.fotoMasuk) {
-                    showPreview('preview_masuk', data.fotoMasuk);
+                    showPreview('preview_masuk', convertToSafeUrl(data.fotoMasuk));
                     document.getElementById('f_foto_masuk_base64').value = data.fotoMasuk;
                 }
                 if (data.fotoKeluar) {
-                    showPreview('preview_keluar', data.fotoKeluar);
+                    showPreview('preview_keluar', convertToSafeUrl(data.fotoKeluar));
                     document.getElementById('f_foto_keluar_base64').value = data.fotoKeluar;
                 }
             } else {
@@ -648,18 +680,6 @@
             openModal('formModal');
         }
 
-        function resetForm() {
-            document.getElementById('repairForm').reset();
-            document.getElementById('f_foto_masuk').value = '';
-            document.getElementById('f_foto_keluar').value = '';
-            document.getElementById('f_foto_masuk_base64').value = '';
-            document.getElementById('f_foto_keluar_base64').value = '';
-            document.getElementById('preview_masuk_container').classList.add('hidden');
-            document.getElementById('preview_keluar_container').classList.add('hidden');
-            document.getElementById('preview_masuk').src = '';
-            document.getElementById('preview_keluar').src = '';
-        }
-
         function previewFile(input, previewId) {
             const file = input.files[0];
             if (file) {
@@ -670,7 +690,7 @@
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        const MAX_DIMENSION = 250; // Auto Kompres Agar Stabil
+                        const MAX_DIMENSION = 250; 
                         
                         if (width > height) {
                             if (width > MAX_DIMENSION) {
@@ -689,7 +709,7 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
                         
-                        const dataURL = canvas.toDataURL('image/jpeg', 0.5); // Quality 50%
+                        const dataURL = canvas.toDataURL('image/jpeg', 0.5); 
                         
                         showPreview(previewId, dataURL);
                         
@@ -710,6 +730,15 @@
             const container = document.getElementById(previewId + '_container');
             img.src = src;
             container.classList.remove('hidden');
+        }
+
+        // FUNGSI PERBAIKAN: Mengubah otomatis link foto lama ke format baru jika diperlukan
+        function convertToSafeUrl(url) {
+            if (!url) return '';
+            if (url.includes('drive.google.com/uc?id=')) {
+                return url.replace('uc?id=', 'thumbnail?id=') + '&sz=w1000';
+            }
+            return url;
         }
 
         function editData(id) {
@@ -742,8 +771,12 @@
         function setupViewPhoto(imgId, noImgId, src) {
             const img = document.getElementById(imgId);
             const noImg = document.getElementById(noImgId);
-            if (src && src.length > 5) { 
-                img.src = src;
+            
+            // Konversi link sebelum ditampilkan
+            const safeSrc = convertToSafeUrl(src);
+
+            if (safeSrc && safeSrc.length > 5) { 
+                img.src = safeSrc;
                 img.classList.remove('hidden');
                 noImg.classList.add('hidden');
             } else {

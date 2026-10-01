@@ -6,12 +6,21 @@
     <title>Service Tracker - Sistem Tracking Perbaikan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
+        /* Background Animated Gradient Terang & Menarik */
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #f8fafc;
-            background-image: radial-gradient(at 0% 0%, hsla(228,100%,94%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(210,100%,94%,1) 0, transparent 50%);
-            background-attachment: fixed;
+            background: linear-gradient(-45deg, #f8fafc, #e0e7ff, #f1f5f9, #dbeafe);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .glass-header {
@@ -56,125 +65,129 @@
         }
         .btn-modern:active { transform: translateY(0); }
 
-        .input-modern {
-            transition: all 0.2s ease;
-        }
-        .input-modern:focus {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 20px -5px rgba(79, 70, 229, 0.15);
-        }
+        .input-modern { transition: all 0.2s ease; }
+        .input-modern:focus { transform: translateY(-1px); box-shadow: 0 4px 20px -5px rgba(79, 70, 229, 0.15); }
     </style>
 </head>
 <body class="text-slate-800 antialiased h-screen flex flex-col overflow-hidden">
 
     <header class="glass-header z-30 sticky top-0 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center gap-4">
-                    <div class="bg-gradient-to-br from-indigo-500 to-blue-600 text-white p-2.5 rounded-xl shadow-lg shadow-indigo-500/30">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    </div>
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20 gap-2">
+                <!-- Bagian Logo & Judul -->
+                <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                    <img src="service trackerr.jpg" alt="Logo Service Tracker" class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl shadow-sm object-cover border border-slate-200">
                     <div>
-                        <h1 class="text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 hidden sm:block tracking-tight">Service Tracker</h1>
-                        <p class="text-xs text-slate-500 font-medium hidden sm:block">Sistem Manajemen Perbaikan</p>
+                        <h1 class="text-[13px] leading-tight sm:text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 tracking-tight" data-i18n="app_title">Service Tracker</h1>
+                        <p class="text-[9px] sm:text-xs text-slate-500 font-medium hidden xs:block" data-i18n="app_subtitle">Sistem Manajemen Perbaikan</p>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-2 sm:gap-3 flex-1 justify-end">
-                    <div class="relative w-full max-w-[160px] sm:max-w-xs transition-all group">
-                        <input type="text" id="searchInput" placeholder="Cari ID, Cust, atau Sales..." class="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 bg-white/60 border border-slate-200 focus:bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-xs sm:text-sm font-medium transition-all shadow-sm group-hover:shadow-md">
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 absolute left-3 sm:left-4 top-3 sm:top-3.5 group-focus-within:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <div class="flex items-center gap-1.5 sm:gap-3 flex-1 justify-end min-w-0">
+                    <!-- Search Input -->
+                    <div class="relative w-full max-w-[120px] sm:max-w-xs transition-all group">
+                        <input type="text" id="searchInput" data-i18n-ph="search" placeholder="Cari..." class="w-full pl-7 sm:pl-10 pr-2 sm:pr-4 py-1.5 sm:py-2.5 bg-white/60 border border-slate-200 focus:bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-[11px] sm:text-sm font-medium transition-all shadow-sm group-hover:shadow-md">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 absolute left-2.5 sm:left-4 top-2 sm:top-3.5 group-focus-within:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
 
-                    <button id="settingsBtn" onclick="openSettings()" class="hidden p-2 sm:p-2.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all flex-shrink-0" title="Pengaturan Database">
+                    <!-- Language Dropdown -->
+                    <div class="relative flex-shrink-0">
+                        <select id="langSelect" onchange="setLanguage(this.value)" class="text-[11px] sm:text-sm bg-white/70 border border-slate-200 hover:bg-slate-50 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/20 py-1.5 sm:py-2.5 pl-2.5 sm:pl-4 pr-7 sm:pr-9 shadow-sm font-bold text-slate-700 cursor-pointer appearance-none transition-colors relative z-10">
+                            <option value="indonesia">🇮🇩 Indonesia</option>
+                            <option value="china">🇨🇳 China</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 sm:px-3 text-slate-500 z-20">
+                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+
+                    <button id="settingsBtn" onclick="openSettings()" class="hidden p-1.5 sm:p-2.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all flex-shrink-0" title="Pengaturan Database">
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     </button>
 
-                    <button id="authBtn" onclick="openLoginModal()" class="p-2 sm:p-2.5 bg-white shadow-sm hover:shadow-md text-slate-600 hover:text-indigo-600 rounded-full transition-all border border-slate-200 flex-shrink-0" title="Admin Login">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <!-- Admin Auth Button -->
+                    <button id="authBtn" onclick="openLoginModal()" class="p-1.5 sm:p-2.5 bg-white shadow-sm hover:shadow-md text-slate-500 hover:text-indigo-600 rounded-full transition-all duration-300 border border-slate-200 flex-shrink-0 group" title="Admin Access">
+                        <div id="authIconContainer" class="transition-transform duration-500 flex items-center justify-center">
+                            <!-- Default User Icon (Not Logged in) -->
+                            <svg id="iconUser" class="w-4 h-4 sm:w-5 sm:h-5 transition-colors duration-300 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            <!-- Shield Icon (Logged In) - Hidden by default -->
+                            <svg id="iconShield" class="w-4 h-4 sm:w-5 sm:h-5 hidden text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="flex-1 overflow-auto p-4 sm:p-6 lg:p-8 relative">
-        <div class="max-w-7xl mx-auto space-y-6">
+    <main class="flex-1 overflow-auto p-3 sm:p-6 lg:p-8 relative">
+        <div class="max-w-7xl mx-auto space-y-4 sm:space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
                 <div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Daftar Perbaikan</h2>
-                    <p class="text-sm font-medium text-slate-500 mt-1 flex items-center gap-1.5" id="connectionStatus">
-                        <span class="w-2 h-2 rounded-full bg-slate-300"></span> Menginisialisasi...
+                    <h2 class="text-xl sm:text-3xl font-extrabold text-slate-800 tracking-tight" data-i18n="list_title">Daftar Perbaikan</h2>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1 flex items-center gap-1.5" id="connectionStatus">
+                        <span class="w-2 h-2 rounded-full bg-slate-300"></span> <span data-i18n="conn_init">Menginisialisasi...</span>
                     </p>
                 </div>
                 
-                <div class="flex gap-3 w-full sm:w-auto">
-                    <button onclick="fetchData()" class="flex-1 sm:flex-none justify-center flex items-center gap-2 bg-white border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 text-slate-700 px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5">
+                <div class="flex gap-2 sm:gap-3 w-full sm:w-auto">
+                    <button onclick="fetchData()" class="flex-1 sm:flex-none justify-center flex items-center gap-2 bg-white border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 text-slate-700 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold shadow-sm transition-all duration-200 hover:-translate-y-0.5">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                        Refresh
+                        <span data-i18n="refresh">Refresh</span>
                     </button>
-                    <button id="addBtn" onclick="openFormModal()" class="hidden flex-1 sm:flex-none justify-center flex items-center gap-2 btn-modern text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
+                    <button id="addBtn" onclick="openFormModal()" class="hidden flex-1 sm:flex-none justify-center flex items-center gap-2 btn-modern text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                        Tambah Data
+                        <span data-i18n="add_data">Tambah Data</span>
                     </button>
                 </div>
             </div>
 
-            <div class="glass-card rounded-3xl overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+            <div class="glass-card rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-max">
                         <thead>
                             <tr class="bg-slate-50/80 border-b border-slate-200 text-[10px] sm:text-[11px] uppercase tracking-widest text-slate-500 font-bold whitespace-nowrap">
-                                <th class="p-3 sm:p-5">ID Transaksi</th>
-                                <th class="p-3 sm:p-5">Pelanggan & Sales</th>
-                                <th class="p-3 sm:p-5">Detail Barang</th>
-                                <th class="p-3 sm:p-5">Tgl Masuk</th>
-                                <th class="p-3 sm:p-5">Status</th>
-                                <th class="p-3 sm:p-5 text-center">Aksi</th>
+                                <th class="p-3 sm:p-5" data-i18n="th_id">ID Transaksi</th>
+                                <th class="p-3 sm:p-5" data-i18n="th_cust">Pelanggan & Sales</th>
+                                <th class="p-3 sm:p-5" data-i18n="th_item">Detail Barang</th>
+                                <th class="p-3 sm:p-5" data-i18n="th_date">Tgl Masuk</th>
+                                <th class="p-3 sm:p-5" data-i18n="th_status">Status</th>
+                                <th class="p-3 sm:p-5 text-center" data-i18n="th_action">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="dataTableBody" class="divide-y divide-slate-100/80 text-sm">
-                            <tr>
-                                <td colspan="6" class="p-12 text-center text-slate-500">
-                                    <div class="flex flex-col items-center justify-center">
-                                        <div class="loader mb-4"></div>
-                                        <span class="font-medium">Memuat data dari database...</span>
-                                    </div>
-                                </td>
-                            </tr>
+                            <!-- Tempat data di-render -->
                         </tbody>
                     </table>
                 </div>
                 
-                <div id="emptyState" class="hidden p-16 text-center">
-                    <div class="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
-                        <svg class="w-10 h-10 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                <div id="emptyState" class="hidden p-10 sm:p-16 text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
+                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-800">Belum ada data perbaikan</h3>
-                    <p class="text-slate-500 mt-2 font-medium max-w-sm mx-auto">Data servis yang ditambahkan oleh teknisi akan muncul di sini.</p>
+                    <h3 class="text-base sm:text-xl font-bold text-slate-800" data-i18n="empty_title">Belum ada data perbaikan</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-2 font-medium max-w-sm mx-auto" data-i18n="empty_desc">Data servis yang ditambahkan oleh teknisi akan muncul di sini.</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Login Modal -->
     <div id="loginModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden overflow-y-auto">
-        <div class="min-h-screen px-4 text-center flex items-center justify-center">
-            <div class="glass-card rounded-3xl w-full max-w-sm transform transition-all shadow-2xl border border-white/40 my-8 text-left">
+        <div class="min-h-screen px-4 text-center flex items-center justify-center py-10">
+            <div class="glass-card rounded-2xl sm:rounded-3xl w-full max-w-sm transform transition-all shadow-2xl border border-white/40 text-left">
                 <div class="p-6 sm:p-8">
                     <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center mb-6">
                         <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-extrabold text-slate-900 mb-2">Login Admin</h3>
-                    <p class="text-sm text-slate-500 font-medium mb-6">Akses khusus untuk teknisi/admin</p>
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2" data-i18n="modal_login_title">Login Admin</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium mb-6" data-i18n="modal_login_sub">Akses khusus untuk teknisi/admin</p>
                     
-                    <div class="space-y-5">
+                    <div class="space-y-4 sm:space-y-5">
                         <div>
-                            <input type="password" id="passwordInput" placeholder="Masukkan Sandi" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-lg font-medium transition-all">
+                            <input type="password" id="passwordInput" data-i18n-ph="ph_password" placeholder="Masukkan Sandi" class="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-base sm:text-lg font-medium transition-all text-center tracking-widest">
                         </div>
                         <div class="flex flex-col sm:flex-row gap-3">
-                            <button onclick="closeModal('loginModal')" class="w-full py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-colors">Batal</button>
-                            <button onclick="handleLogin()" class="w-full btn-modern text-white font-bold py-3.5 rounded-xl">Masuk</button>
+                            <button onclick="closeModal('loginModal')" class="w-full py-3 sm:py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-colors text-sm sm:text-base" data-i18n="btn_cancel">Batal</button>
+                            <button id="btnLoginAction" onclick="handleLogin()" class="w-full btn-modern text-white font-bold py-3 sm:py-3.5 rounded-xl text-sm sm:text-base" data-i18n="btn_login">Masuk</button>
                         </div>
                     </div>
                 </div>
@@ -182,23 +195,22 @@
         </div>
     </div>
 
-    <!-- Settings Auth Modal -->
     <div id="settingsAuthModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden overflow-y-auto">
-        <div class="min-h-screen px-4 text-center flex items-center justify-center">
-            <div class="glass-card rounded-3xl w-full max-w-sm transform transition-all shadow-2xl border border-white/40 my-8 text-left">
+        <div class="min-h-screen px-4 text-center flex items-center justify-center py-10">
+            <div class="glass-card rounded-2xl sm:rounded-3xl w-full max-w-sm transform transition-all shadow-2xl border border-white/40 text-left">
                 <div class="p-6 sm:p-8">
                     <div class="w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center mb-6">
                         <svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     </div>
-                    <h3 class="text-2xl font-extrabold text-slate-900 mb-2">Keamanan Sistem</h3>
-                    <p class="text-sm text-slate-500 font-medium mb-6">Sandi khusus pengaturan database</p>
-                    <div class="space-y-5">
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2" data-i18n="modal_sec_title">Keamanan Sistem</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium mb-6" data-i18n="modal_sec_sub">Sandi khusus pengaturan database</p>
+                    <div class="space-y-4 sm:space-y-5">
                         <div>
-                            <input type="password" id="settingsPasswordInput" placeholder="Sandi Pengaturan" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-lg font-medium transition-all">
+                            <input type="password" id="settingsPasswordInput" data-i18n-ph="ph_sec" placeholder="Sandi Pengaturan" class="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-base sm:text-lg font-medium transition-all text-center tracking-widest">
                         </div>
                         <div class="flex flex-col sm:flex-row gap-3">
-                            <button onclick="closeModal('settingsAuthModal')" class="w-full py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-colors">Batal</button>
-                            <button onclick="handleSettingsAuth()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-xl transition-colors">Buka</button>
+                            <button onclick="closeModal('settingsAuthModal')" class="w-full py-3 sm:py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-colors text-sm sm:text-base" data-i18n="btn_cancel">Batal</button>
+                            <button id="btnSettingsAuthAction" onclick="handleSettingsAuth()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 sm:py-3.5 rounded-xl transition-colors text-sm sm:text-base" data-i18n="btn_open">Buka</button>
                         </div>
                     </div>
                 </div>
@@ -206,27 +218,26 @@
         </div>
     </div>
 
-    <!-- Settings Modal -->
     <div id="settingsModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden overflow-y-auto">
-        <div class="min-h-screen px-4 text-center flex items-center justify-center">
-            <div class="glass-card rounded-3xl w-full max-w-lg transform transition-all shadow-2xl border border-white/40 my-8 text-left">
-                <div class="p-6 sm:p-8">
-                    <div class="flex justify-between items-center mb-6">
+        <div class="min-h-screen px-4 text-center flex items-center justify-center py-10">
+            <div class="glass-card rounded-2xl sm:rounded-3xl w-full max-w-lg transform transition-all shadow-2xl border border-white/40 text-left">
+                <div class="p-5 sm:p-8">
+                    <div class="flex justify-between items-center mb-5 sm:mb-6">
                         <div>
-                            <h3 class="text-2xl font-extrabold text-slate-900">Database API</h3>
-                            <p class="text-sm text-slate-500 font-medium mt-1">Konfigurasi Google Apps Script URL</p>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900" data-i18n="modal_db_title">Database API</h3>
+                            <p class="text-xs sm:text-sm text-slate-500 font-medium mt-1" data-i18n="modal_db_sub">Konfigurasi Google Apps Script URL</p>
                         </div>
-                        <button onclick="closeModal('settingsModal')" class="w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        <button onclick="closeModal('settingsModal')" class="w-8 h-8 sm:w-10 sm:h-10 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                     </div>
-                    <div class="space-y-5">
+                    <div class="space-y-4 sm:space-y-5">
                         <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2">Google Apps Script URL (Sheet + Drive)</label>
-                            <input type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white font-medium transition-all text-sm">
+                            <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-2" data-i18n="lbl_gas">Google Apps Script URL</label>
+                            <input type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white font-medium transition-all text-xs sm:text-sm">
                         </div>
                         <div class="pt-2">
-                            <button onclick="saveSettings()" class="w-full btn-modern text-white font-bold py-3.5 rounded-xl">Simpan & Muat Ulang</button>
+                            <button onclick="saveSettings()" class="w-full btn-modern text-white font-bold py-3 sm:py-3.5 rounded-xl text-sm sm:text-base" data-i18n="btn_save_reload">Simpan & Muat Ulang</button>
                         </div>
                     </div>
                 </div>
@@ -234,97 +245,90 @@
         </div>
     </div>
 
-    <!-- Form Modal -->
     <div id="formModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden overflow-y-auto">
-        <div class="min-h-screen px-4 text-center flex items-center justify-center">
-            <div class="glass-card rounded-3xl w-full max-w-3xl transform transition-all shadow-2xl border border-white/40 my-8 text-left">
-                <div class="p-6 sm:p-8">
-                    <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-5">
+        <div class="min-h-screen px-4 flex items-center justify-center py-6 sm:py-10">
+            <div class="glass-card rounded-2xl sm:rounded-3xl w-full max-w-3xl transform transition-all shadow-2xl border border-white/40 text-left">
+                <div class="p-5 sm:p-8">
+                    <div class="flex justify-between items-center mb-5 sm:mb-6 border-b border-slate-100 pb-4 sm:pb-5">
                         <div>
-                            <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight" id="formTitle">Tambah Data Baru</h3>
-                            <p class="text-sm text-slate-500 font-medium mt-1">Lengkapi informasi perbaikan barang</p>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight" id="formTitle" data-i18n="form_add">Tambah Data Baru</h3>
+                            <p class="text-[10px] sm:text-sm text-slate-500 font-medium mt-1" data-i18n="form_sub">Lengkapi informasi perbaikan barang</p>
                         </div>
-                        <button onclick="closeModal('formModal')" class="w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        <button type="button" onclick="closeModal('formModal')" class="w-8 h-8 sm:w-10 sm:h-10 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors flex-shrink-0 ml-4">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
                     </div>
                     
-                    <form id="repairForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <form id="repairForm" onsubmit="handleFormSubmit(event)" class="space-y-4 sm:space-y-6">
                         <input type="hidden" id="isEdit" value="false">
                         <input type="hidden" id="originalId" value="">
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                             <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">ID Transaksi</label>
-                                <input type="text" id="f_id" required placeholder="Otomatis" class="input-modern w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none text-sm bg-slate-100/50 text-slate-500 font-medium cursor-not-allowed">
+                                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_id">ID Transaksi</label>
+                                <input type="text" id="f_id" required data-i18n-ph="ph_auto" placeholder="Otomatis" class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 focus:outline-none text-xs sm:text-sm bg-slate-100/50 text-slate-500 font-medium cursor-not-allowed">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">Status Perbaikan</label>
-                                <select id="f_status" required class="input-modern w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-bold text-slate-700">
-                                    <option value="Menunggu Pengecekan">Menunggu Pengecekan</option>
-                                    <option value="Sedang Diperbaiki">Sedang Diperbaiki</option>
-                                    <option value="Menunggu Sparepart">Menunggu Sparepart</option>
-                                    <option value="Selesai">Selesai</option>
-                                    <option value="Sudah Diambil">Sudah Diambil</option>
-                                    <option value="Batal">Batal</option>
-                                    <option value="Dipinjam">Dipinjam</option>
-                                    <option value="Sudah Dikembalikan">Sudah Dikembalikan</option>
+                                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_status">Status Perbaikan</label>
+                                <select id="f_status" required class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-bold text-slate-700">
+                                    <!-- Options generated via JS -->
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">Tanggal Masuk</label>
-                                <input type="date" id="f_tgl_masuk" required class="input-modern w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-medium">
+                                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_date_in">Tanggal Masuk</label>
+                                <input type="date" id="f_tgl_masuk" required class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-medium">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">Tanggal Keluar (Estimasi)</label>
-                                <input type="date" id="f_tgl_keluar" class="input-modern w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-medium">
+                                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_date_out">Tanggal Keluar (Estimasi)</label>
+                                <input type="date" id="f_tgl_keluar" class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-medium">
                             </div>
                         </div>
                         
-                        <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+                        <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent my-2 sm:my-0"></div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">Nama Pelanggan</label>
-                                <input type="text" id="f_customer" required placeholder="Contoh: Budi Santoso" class="input-modern w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-medium">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">Nama Sales</label>
-                                <input type="text" id="f_sales" required placeholder="Contoh: Andi" class="input-modern w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-medium">
+                        <div class="grid grid-cols-1 gap-4 sm:gap-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                                <div>
+                                    <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_cust">Nama Pelanggan</label>
+                                    <input type="text" id="f_customer" required data-i18n-ph="ph_cust" placeholder="Contoh: Budi Santoso" class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-medium">
+                                </div>
+                                <div>
+                                    <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_sales">Nama Sales</label>
+                                    <input type="text" id="f_sales" required data-i18n-ph="ph_sales" placeholder="Contoh: Andi" class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-medium">
+                                </div>
                             </div>
                             
-                            <div class="md:col-span-2 flex flex-col gap-5">
-                                <div class="flex-1">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2">Detail Barang & Kendala</label>
-                                    <input type="text" id="f_barang" required placeholder="Contoh: Laptop Asus - Mati Total" class="input-modern w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-medium">
-                                </div>
-                                <div class="w-full">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2">Qty (Unit)</label>
-                                    <input type="number" id="f_qty" required min="1" value="1" class="input-modern w-full px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-medium text-center md:text-left">
-                                </div>
+                            <div>
+                                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_item">Detail Barang & Kendala</label>
+                                <input type="text" id="f_barang" required data-i18n-ph="ph_item" placeholder="Contoh: Laptop Asus - Mati Total" class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-medium">
+                            </div>
+                            
+                            <div class="w-full sm:w-1/3">
+                                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_qty">Qty (Unit)</label>
+                                <input type="number" id="f_qty" required min="1" value="1" class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-medium text-left">
                             </div>
                         </div>
 
-                        <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+                        <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent my-2 sm:my-0"></div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                             <!-- Upload Foto Masuk -->
-                            <div class="relative w-full border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50/50 hover:bg-indigo-50 hover:border-indigo-400 transition-all text-center overflow-hidden flex flex-col justify-center min-h-[160px] group cursor-pointer" onclick="document.getElementById('f_foto_masuk').click()">
+                            <div class="relative w-full border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50/50 hover:bg-indigo-50 hover:border-indigo-400 transition-all text-center overflow-hidden flex flex-col justify-center aspect-[4/3] sm:aspect-auto sm:h-52 group cursor-pointer" onclick="document.getElementById('f_foto_masuk').click()">
                                 <input type="file" id="f_foto_masuk" accept="image/*" onchange="previewFile(this, 'preview_masuk')" class="hidden">
                                 
-                                <div class="p-5 flex flex-col items-center justify-center gap-3" id="placeholder_masuk">
-                                    <div class="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-400 group-hover:text-indigo-500 transition-colors">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <div class="p-4 sm:p-5 flex flex-col items-center justify-center gap-2 sm:gap-3" id="placeholder_masuk">
+                                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-400 group-hover:text-indigo-500 transition-colors">
+                                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                     </div>
                                     <div>
-                                        <span class="block text-sm font-bold text-slate-700">Foto Pengecekan (Masuk)</span>
-                                        <span class="block text-xs text-slate-500 mt-1 font-medium">Ketuk area ini untuk ambil foto</span>
+                                        <span class="block text-xs sm:text-sm font-bold text-slate-700" data-i18n="lbl_pic_in">Foto Pengecekan (Masuk)</span>
+                                        <span class="block text-[10px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 font-medium" data-i18n="tap_pic">Ketuk area ini untuk ambil foto</span>
                                     </div>
                                 </div>
 
-                                <div class="hidden absolute inset-0 w-full h-full bg-white z-20 flex flex-col items-center justify-center p-2" id="preview_masuk_container">
-                                    <img id="preview_masuk" src="" class="max-h-full max-w-full rounded-xl object-contain shadow-sm pointer-events-none">
-                                    <button type="button" onclick="event.stopPropagation(); hapusFoto('masuk')" class="absolute top-3 right-3 bg-white/90 backdrop-blur text-rose-600 rounded-full p-2 shadow-lg hover:bg-rose-50 transition-colors z-30 border border-slate-100">
+                                <div class="hidden absolute inset-0 w-full h-full bg-slate-50 z-20 flex flex-col items-center justify-center p-2" id="preview_masuk_container">
+                                    <img id="preview_masuk" src="" class="max-h-full max-w-full rounded-xl object-contain shadow-sm pointer-events-none w-full h-full">
+                                    <button type="button" onclick="event.stopPropagation(); hapusFoto('masuk')" class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white/90 backdrop-blur text-rose-600 rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-rose-50 transition-colors z-30 border border-slate-100">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     </button>
                                     <input type="hidden" id="f_foto_masuk_base64">
@@ -332,22 +336,22 @@
                             </div>
                             
                             <!-- Upload Foto Keluar -->
-                            <div class="relative w-full border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50/50 hover:bg-indigo-50 hover:border-indigo-400 transition-all text-center overflow-hidden flex flex-col justify-center min-h-[160px] group cursor-pointer" onclick="document.getElementById('f_foto_keluar').click()">
+                            <div class="relative w-full border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50/50 hover:bg-indigo-50 hover:border-indigo-400 transition-all text-center overflow-hidden flex flex-col justify-center aspect-[4/3] sm:aspect-auto sm:h-52 group cursor-pointer" onclick="document.getElementById('f_foto_keluar').click()">
                                 <input type="file" id="f_foto_keluar" accept="image/*" onchange="previewFile(this, 'preview_keluar')" class="hidden">
                                 
-                                <div class="p-5 flex flex-col items-center justify-center gap-3" id="placeholder_keluar">
-                                    <div class="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-400 group-hover:text-indigo-500 transition-colors">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div class="p-4 sm:p-5 flex flex-col items-center justify-center gap-2 sm:gap-3" id="placeholder_keluar">
+                                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-400 group-hover:text-indigo-500 transition-colors">
+                                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     </div>
                                     <div>
-                                        <span class="block text-sm font-bold text-slate-700">Foto Pengiriman (Keluar)</span>
-                                        <span class="block text-xs text-slate-500 mt-1 font-medium">Ketuk area ini untuk ambil foto</span>
+                                        <span class="block text-xs sm:text-sm font-bold text-slate-700" data-i18n="lbl_pic_out">Foto Pengiriman (Keluar)</span>
+                                        <span class="block text-[10px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 font-medium" data-i18n="tap_pic">Ketuk area ini untuk ambil foto</span>
                                     </div>
                                 </div>
 
-                                <div class="hidden absolute inset-0 w-full h-full bg-white z-20 flex flex-col items-center justify-center p-2" id="preview_keluar_container">
-                                    <img id="preview_keluar" src="" class="max-h-full max-w-full rounded-xl object-contain shadow-sm pointer-events-none">
-                                    <button type="button" onclick="event.stopPropagation(); hapusFoto('keluar')" class="absolute top-3 right-3 bg-white/90 backdrop-blur text-rose-600 rounded-full p-2 shadow-lg hover:bg-rose-50 transition-colors z-30 border border-slate-100">
+                                <div class="hidden absolute inset-0 w-full h-full bg-slate-50 z-20 flex flex-col items-center justify-center p-2" id="preview_keluar_container">
+                                    <img id="preview_keluar" src="" class="max-h-full max-w-full rounded-xl object-contain shadow-sm pointer-events-none w-full h-full">
+                                    <button type="button" onclick="event.stopPropagation(); hapusFoto('keluar')" class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white/90 backdrop-blur text-rose-600 rounded-full p-1.5 sm:p-2 shadow-lg hover:bg-rose-50 transition-colors z-30 border border-slate-100">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     </button>
                                     <input type="hidden" id="f_foto_keluar_base64">
@@ -355,10 +359,10 @@
                             </div>
                         </div>
 
-                        <div class="pt-6 flex flex-col sm:flex-row justify-end gap-3 border-t border-slate-100">
-                            <button type="button" onclick="closeModal('formModal')" class="w-full sm:w-auto px-6 py-3.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl font-bold transition-colors shadow-sm">Batal</button>
-                            <button type="submit" id="submitBtn" class="w-full sm:w-auto flex justify-center items-center gap-2 px-8 py-3.5 btn-modern text-white rounded-xl font-bold transition-all">
-                                <span id="submitBtnText">Simpan Data</span>
+                        <div class="pt-4 sm:pt-6 flex flex-col sm:flex-row justify-end gap-3 border-t border-slate-100 mt-4">
+                            <button type="button" onclick="closeModal('formModal')" class="w-full sm:w-auto px-6 py-3 sm:py-3.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl font-bold transition-colors shadow-sm text-sm sm:text-base min-h-[44px]" data-i18n="btn_cancel">Batal</button>
+                            <button type="submit" id="submitBtn" class="w-full sm:w-auto flex justify-center items-center gap-2 px-8 py-3 sm:py-3.5 btn-modern text-white rounded-xl font-bold transition-all text-sm sm:text-base min-h-[44px]">
+                                <span id="submitBtnText" data-i18n="btn_save">Simpan Data</span>
                                 <div id="submitLoader" class="loader hidden !w-5 !h-5 !border-2 !border-white/30 !border-t-white"></div>
                             </button>
                         </div>
@@ -368,81 +372,77 @@
         </div>
     </div>
 
-    <!-- View Modal -->
     <div id="viewModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden overflow-y-auto">
-        <div class="min-h-screen px-4 text-center flex items-center justify-center">
-            <div class="glass-card rounded-3xl w-full max-w-2xl transform transition-all shadow-2xl border border-white/40 my-8 flex flex-col max-h-[90vh] text-left">
-                <div class="p-6 border-b border-slate-100 bg-white/50 flex justify-between items-start flex-shrink-0">
+        <div class="min-h-screen px-4 flex items-center justify-center py-6 sm:py-10">
+            <div class="glass-card rounded-2xl sm:rounded-3xl w-full max-w-2xl transform transition-all shadow-2xl border border-white/40 flex flex-col max-h-[90vh] text-left">
+                <div class="p-4 sm:p-6 border-b border-slate-100 bg-white/50 flex justify-between items-start flex-shrink-0">
                     <div>
-                        <span id="v_status_badge" class="px-3 py-1 rounded-full text-xs font-bold inline-block mb-3 border bg-slate-100 text-slate-700 shadow-sm">-</span>
-                        <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight" id="v_title">Detail Transaksi</h3>
-                        <p class="text-sm text-slate-500 font-medium mt-1 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        <span id="v_status_badge" class="px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold inline-block mb-2 border bg-slate-100 text-slate-700 shadow-sm">-</span>
+                        <h3 class="text-lg sm:text-2xl font-extrabold text-slate-900 tracking-tight" id="v_title" data-i18n="v_title">Detail Transaksi</h3>
+                        <p class="text-[10px] sm:text-sm text-slate-500 font-medium mt-1 flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                             ID: <span id="v_subtitle">-</span>
                         </p>
                     </div>
-                    <button onclick="closeModal('viewModal')" class="w-10 h-10 bg-white shadow-sm border border-slate-100 hover:bg-slate-50 text-slate-500 rounded-full flex items-center justify-center transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <button onclick="closeModal('viewModal')" class="w-8 h-8 sm:w-10 sm:h-10 bg-white shadow-sm border border-slate-100 hover:bg-slate-50 text-slate-500 rounded-full flex items-center justify-center transition-colors">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
                 
-                <div class="p-6 overflow-y-auto flex-1 bg-white/40">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-6 text-sm mb-8 bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-                        <div><p class="text-slate-400 font-medium text-xs uppercase tracking-wider mb-1">Customer</p><p class="font-bold text-slate-800 text-base" id="v_customer">-</p></div>
-                        <div><p class="text-slate-400 font-medium text-xs uppercase tracking-wider mb-1">Sales</p><p class="font-bold text-slate-800 text-base" id="v_sales">-</p></div>
+                <div class="p-4 sm:p-6 overflow-y-auto flex-1 bg-white/40">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-xs sm:text-sm mb-6 bg-white p-4 sm:p-5 rounded-2xl border border-slate-100 shadow-sm">
+                        <div><p class="text-slate-400 font-medium text-[10px] sm:text-xs uppercase tracking-wider mb-0.5" data-i18n="v_cust">Customer</p><p class="font-bold text-slate-800 text-sm sm:text-base break-words" id="v_customer">-</p></div>
+                        <div><p class="text-slate-400 font-medium text-[10px] sm:text-xs uppercase tracking-wider mb-0.5" data-i18n="v_sales">Sales</p><p class="font-bold text-slate-800 text-sm sm:text-base break-words" id="v_sales">-</p></div>
                         <div class="sm:col-span-2">
-                            <p class="text-slate-400 font-medium text-xs uppercase tracking-wider mb-1">Barang & Qty</p>
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mt-1">
-                                <p class="font-bold text-slate-800 text-base" id="v_barang">-</p>
+                            <p class="text-slate-400 font-medium text-[10px] sm:text-xs uppercase tracking-wider mb-1" data-i18n="v_item">Barang & Qty</p>
+                            <div class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-100 mt-0.5">
+                                <p class="font-bold text-slate-800 text-sm sm:text-base break-words" id="v_barang">-</p>
                             </div>
                         </div>
-                        <div><p class="text-slate-400 font-medium text-xs uppercase tracking-wider mb-1">Tanggal Masuk</p><p class="font-bold text-slate-800 flex items-center gap-1.5"><svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> <span id="v_tgl_masuk">-</span></p></div>
-                        <div><p class="text-slate-400 font-medium text-xs uppercase tracking-wider mb-1">Tanggal Keluar</p><p class="font-bold text-slate-800 flex items-center gap-1.5"><svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> <span id="v_tgl_keluar">-</span></p></div>
+                        <div><p class="text-slate-400 font-medium text-[10px] sm:text-xs uppercase tracking-wider mb-0.5" data-i18n="v_date_in">Tanggal Masuk</p><p class="font-bold text-slate-800 flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> <span id="v_tgl_masuk">-</span></p></div>
+                        <div><p class="text-slate-400 font-medium text-[10px] sm:text-xs uppercase tracking-wider mb-0.5" data-i18n="v_date_out">Tanggal Keluar</p><p class="font-bold text-slate-800 flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> <span id="v_tgl_keluar">-</span></p></div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                         <div>
-                            <p class="text-slate-700 font-bold mb-3 flex items-center gap-2"><svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> Foto Pengecekan</p>
-                            <div class="bg-white rounded-2xl h-48 flex items-center justify-center overflow-hidden border border-slate-200 shadow-sm relative group cursor-pointer" onclick="openFullImage('v_foto_masuk')">
-                                <img id="v_foto_masuk" src="" class="max-h-full max-w-full object-cover w-full h-full hidden transition-transform duration-300 group-hover:scale-105">
+                            <p class="text-slate-700 text-[11px] sm:text-sm font-bold mb-2 flex items-center gap-1.5 sm:gap-2"><svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> <span data-i18n="v_pic_in">Foto Pengecekan</span></p>
+                            <div class="bg-slate-50 rounded-2xl aspect-[4/3] sm:aspect-auto sm:h-48 flex items-center justify-center overflow-hidden border border-slate-200 shadow-sm relative group cursor-pointer" onclick="openFullImage('v_foto_masuk')">
+                                <img id="v_foto_masuk" src="" class="max-h-full max-w-full object-contain w-full h-full hidden transition-transform duration-300 group-hover:scale-105">
                                 <div class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span class="text-white font-medium text-sm bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">Perbesar</span>
+                                    <span class="text-white font-medium text-[10px] sm:text-sm bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm" data-i18n="zoom">Perbesar</span>
                                 </div>
-                                <div id="v_no_foto_masuk" class="text-slate-400 text-sm font-medium flex flex-col items-center gap-2">
-                                    <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                    Tidak ada foto
+                                <div id="v_no_foto_masuk" class="text-slate-400 text-[10px] sm:text-sm font-medium flex flex-col items-center gap-1.5 sm:gap-2">
+                                    <svg class="w-6 h-6 sm:w-8 sm:h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span data-i18n="v_no_pic">Tidak ada foto</span>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <p class="text-slate-700 font-bold mb-3 flex items-center gap-2"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg> Foto Pengiriman</p>
-                            <div class="bg-white rounded-2xl h-48 flex items-center justify-center overflow-hidden border border-slate-200 shadow-sm relative group cursor-pointer" onclick="openFullImage('v_foto_keluar')">
-                                <img id="v_foto_keluar" src="" class="max-h-full max-w-full object-cover w-full h-full hidden transition-transform duration-300 group-hover:scale-105">
+                            <p class="text-slate-700 text-[11px] sm:text-sm font-bold mb-2 flex items-center gap-1.5 sm:gap-2"><svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg> <span data-i18n="v_pic_out">Foto Pengiriman</span></p>
+                            <div class="bg-slate-50 rounded-2xl aspect-[4/3] sm:aspect-auto sm:h-48 flex items-center justify-center overflow-hidden border border-slate-200 shadow-sm relative group cursor-pointer" onclick="openFullImage('v_foto_keluar')">
+                                <img id="v_foto_keluar" src="" class="max-h-full max-w-full object-contain w-full h-full hidden transition-transform duration-300 group-hover:scale-105">
                                 <div class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span class="text-white font-medium text-sm bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">Perbesar</span>
+                                    <span class="text-white font-medium text-[10px] sm:text-sm bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm" data-i18n="zoom">Perbesar</span>
                                 </div>
-                                <div id="v_no_foto_keluar" class="text-slate-400 text-sm font-medium flex flex-col items-center gap-2">
-                                    <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                    Tidak ada foto
+                                <div id="v_no_foto_keluar" class="text-slate-400 text-[10px] sm:text-sm font-medium flex flex-col items-center gap-1.5 sm:gap-2">
+                                    <svg class="w-6 h-6 sm:w-8 sm:h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span data-i18n="v_no_pic">Tidak ada foto</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="p-5 border-t border-slate-100 bg-white/50 flex justify-end flex-shrink-0">
-                    <button onclick="closeModal('viewModal')" class="w-full sm:w-auto px-8 py-3.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold transition-colors shadow-md">Tutup Detail</button>
+                <div class="p-4 sm:p-5 border-t border-slate-100 bg-white/50 flex justify-end flex-shrink-0">
+                    <button onclick="closeModal('viewModal')" class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold transition-colors shadow-md text-sm sm:text-base min-h-[44px]" data-i18n="btn_close">Tutup Detail</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast Container -->
-    <div id="toastContainer" class="fixed bottom-6 right-6 z-[60] flex flex-col gap-3"></div>
+    <div id="toastContainer" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60] flex flex-col gap-3"></div>
 
     <script>
-        let isAdmin = false;
-        
         // ===============================================================================
         // 👇 TEMPELKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI 👇
         // ===============================================================================
@@ -451,20 +451,119 @@
         
         // ===============================================================================
         
+        let isAdmin = false;
         let appData = [];
         let isLoading = false;
         
-        // Palet warna status
         const statusColors = {
             'Menunggu Pengecekan': 'bg-slate-100 text-slate-700 border-slate-200',
             'Sedang Diperbaiki': 'bg-amber-50 text-amber-700 border-amber-200',
-            'Menunggu Sparepart': 'bg-orange-50 text-orange-700 border-orange-200',
             'Selesai': 'bg-emerald-50 text-emerald-700 border-emerald-200',
             'Sudah Diambil': 'bg-blue-50 text-blue-700 border-blue-200',
-            'Batal': 'bg-rose-50 text-rose-700 border-rose-200',
             'Dipinjam': 'bg-purple-50 text-purple-700 border-purple-200',
             'Sudah Dikembalikan': 'bg-teal-50 text-teal-700 border-teal-200'
         };
+
+        let currentLang = localStorage.getItem('app_lang') || 'indonesia';
+        const i18n = {
+            indonesia: {
+                app_title: "Service Tracker", app_subtitle: "Sistem Manajemen Perbaikan", search: "Cari ID, Sales, Cust...",
+                refresh: "Refresh", add_data: "Tambah Data", list_title: "Daftar Perbaikan",
+                th_id: "ID Trans", th_cust: "Pelanggan & Sales", th_item: "Detail Barang",
+                th_date: "Tgl Masuk", th_status: "Status", th_action: "Aksi",
+                empty_title: "Belum ada data perbaikan", empty_desc: "Data servis yang ditambahkan akan muncul di sini.",
+                loading: "Memuat data...", syncing: "Sinkronisasi data...",
+                modal_login_title: "Login Admin", modal_login_sub: "Akses khusus untuk teknisi/admin", ph_password: "Masukkan Sandi",
+                btn_cancel: "Batal", btn_login: "Masuk",
+                modal_sec_title: "Keamanan Sistem", modal_sec_sub: "Sandi khusus pengaturan database", ph_sec: "Sandi Pengaturan", btn_open: "Buka",
+                modal_db_title: "Database API", modal_db_sub: "Konfigurasi Google Apps Script URL", lbl_gas: "Google Apps Script URL", btn_save_reload: "Simpan & Muat Ulang",
+                form_add: "Tambah Data Baru", form_edit: "Edit Data Perbaikan", form_sub: "Lengkapi informasi perbaikan barang",
+                lbl_id: "ID Transaksi", ph_auto: "Otomatis", lbl_status: "Status Perbaikan", lbl_date_in: "Tanggal Masuk", lbl_date_out: "Tanggal Keluar (Estimasi)",
+                lbl_cust: "Nama Pelanggan", ph_cust: "Contoh: Budi Santoso", lbl_sales: "Nama Sales", ph_sales: "Contoh: Andi",
+                lbl_item: "Detail Barang & Kendala", ph_item: "Contoh: Laptop Asus - Mati Total", lbl_qty: "Qty (Unit)",
+                lbl_pic_in: "Foto Pengecekan (Masuk)", lbl_pic_out: "Foto Pengiriman (Keluar)", tap_pic: "Ketuk area ini untuk ambil foto",
+                btn_save: "Simpan Data", btn_saving: "Menyimpan...",
+                v_title: "Detail Transaksi", v_cust: "Customer", v_sales: "Sales", v_item: "Barang & Qty",
+                v_date_in: "Tanggal Masuk", v_date_out: "Tanggal Keluar", v_pic_in: "Foto Pengecekan", v_pic_out: "Foto Pengiriman",
+                v_no_pic: "Tidak ada foto", btn_close: "Tutup Detail", zoom: "Perbesar",
+                t_logout: "Sesi admin diakhiri (Logout)", t_login_ok: "Login berhasil. Mode Admin Aktif.", t_login_err: "Sandi Admin salah!",
+                t_sec_err: "Sandi Pengaturan salah!", t_save_ok: "Konfigurasi API berhasil disimpan", t_fetch_err: "Gagal memuat database cloud. Beralih ke lokal.",
+                t_save_db_ok: "Data berhasil disimpan ke Database", t_save_loc_ok: "Data lokal berhasil diperbarui",
+                conn_init: "Menginisialisasi...", conn_online: "Online Database Cloud", conn_demo: "Mode Lokal", unit: "unit"
+            },
+            china: {
+                app_title: "服务追踪系统", app_subtitle: "维修管理系统", search: "搜索 ID, 销售...",
+                refresh: "刷新", add_data: "添加数据", list_title: "维修列表",
+                th_id: "交易 ID", th_cust: "客户 & 销售", th_item: "物品详情",
+                th_date: "入库日期", th_status: "状态", th_action: "操作",
+                empty_title: "尚无维修数据", empty_desc: "添加的维修数据将显示在这里。",
+                loading: "加载中...", syncing: "同步数据中...",
+                modal_login_title: "管理员登录", modal_login_sub: "管理员专用访问权限", ph_password: "输入密码",
+                btn_cancel: "取消", btn_login: "登录",
+                modal_sec_title: "系统安全", modal_sec_sub: "数据库设置专用密码", ph_sec: "设置密码", btn_open: "打开",
+                modal_db_title: "数据库 API", modal_db_sub: "配置 Google Apps Script URL", lbl_gas: "Google Apps Script URL", btn_save_reload: "保存并重新加载",
+                form_add: "添加新数据", form_edit: "编辑维修数据", form_sub: "填写物品维修信息",
+                lbl_id: "交易 ID", ph_auto: "自动生成", lbl_status: "维修状态", lbl_date_in: "入库日期", lbl_date_out: "出库日期 (预计)",
+                lbl_cust: "客户名称", ph_cust: "示例: Budi Santoso", lbl_sales: "销售名称", ph_sales: "示例: Andi",
+                lbl_item: "物品详情与问题", ph_item: "示例: 华硕 - 无法开机", lbl_qty: "数量",
+                lbl_pic_in: "检查照片 (入库)", lbl_pic_out: "发货照片 (出库)", tap_pic: "点击此区域拍照",
+                btn_save: "保存数据", btn_saving: "保存中...",
+                v_title: "交易详情", v_cust: "客户", v_sales: "销售", v_item: "物品 & 数量",
+                v_date_in: "入库日期", v_date_out: "出库日期", v_pic_in: "检查照片", v_pic_out: "发货照片",
+                v_no_pic: "无照片", btn_close: "关闭", zoom: "放大",
+                t_logout: "会话已结束", t_login_ok: "登录成功。管理员模式已激活。", t_login_err: "密码错误！",
+                t_sec_err: "密码错误！", t_save_ok: "API 配置成功保存", t_fetch_err: "无法加载云数据库。",
+                t_save_db_ok: "数据成功保存到数据库", t_save_loc_ok: "本地数据已更新",
+                conn_init: "初始化中...", conn_online: "在线云数据库", conn_demo: "本地模式", unit: "单位"
+            }
+        };
+
+        function t(key) { return i18n[currentLang][key] || key; }
+
+        function tStatus(statusText) {
+            if(currentLang === 'indonesia') return statusText;
+            const map = {
+                "Menunggu Pengecekan": "等待检查", "Sedang Diperbaiki": "正在维修",
+                "Selesai": "已完成", "Sudah Diambil": "已领取",
+                "Dipinjam": "已借出", "Sudah Dikembalikan": "已归还"
+            };
+            return map[statusText] || statusText;
+        }
+
+        function updateStatusDropdown() {
+            const select = document.getElementById('f_status');
+            const currentVal = select.value || 'Menunggu Pengecekan';
+            select.innerHTML = `
+                <option value="Menunggu Pengecekan">${tStatus('Menunggu Pengecekan')}</option>
+                <option value="Sedang Diperbaiki">${tStatus('Sedang Diperbaiki')}</option>
+                <option value="Selesai">${tStatus('Selesai')}</option>
+                <option value="Sudah Diambil">${tStatus('Sudah Diambil')}</option>
+                <option value="Dipinjam">${tStatus('Dipinjam')}</option>
+                <option value="Sudah Dikembalikan">${tStatus('Sudah Dikembalikan')}</option>
+            `;
+            select.value = currentVal;
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('app_lang', lang);
+            document.documentElement.lang = lang === 'indonesia' ? 'id' : 'zh';
+            document.getElementById('langSelect').value = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(i18n[lang][key]) el.textContent = i18n[lang][key];
+            });
+
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if(i18n[lang][key]) el.placeholder = i18n[lang][key];
+            });
+
+            updateStatusDropdown();
+            updateConnectionStatus();
+            if(!isLoading) renderTable(document.getElementById('searchInput').value);
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             const savedUrl = localStorage.getItem('gas_db_url');
@@ -475,7 +574,7 @@
                 document.getElementById('gasUrlInput').value = dbUrl;
             }
             
-            updateConnectionStatus();
+            setLanguage(currentLang); 
             
             document.getElementById('searchInput').addEventListener('input', (e) => {
                 renderTable(e.target.value);
@@ -485,12 +584,20 @@
             document.getElementById('f_tgl_masuk').value = today;
 
             fetchData();
+
+            // Fitur tekan tombol "Enter" di Form Login & Pengaturan
+            document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); handleLogin(); }
+            });
+            document.getElementById('settingsPasswordInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); handleSettingsAuth(); }
+            });
         });
 
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             const colors = type === 'success' ? 'bg-emerald-600' : (type === 'error' ? 'bg-rose-600' : 'bg-slate-800');
-            toast.className = `${colors} text-white px-5 py-4 rounded-2xl shadow-2xl shadow-black/10 text-sm font-bold flex items-center gap-3 transform transition-all duration-300 translate-y-8 opacity-0 z-[100] border border-white/10`;
+            toast.className = `${colors} text-white px-4 sm:px-5 py-3 rounded-xl shadow-2xl shadow-black/10 text-xs sm:text-sm font-bold flex items-center gap-2.5 transform transition-all duration-300 translate-y-8 opacity-0 z-[100] border border-white/10`;
             
             const icon = type === 'success' 
                 ? `<div class="bg-white/20 rounded-full p-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>`
@@ -526,12 +633,15 @@
             if (isAdmin) {
                 isAdmin = false;
                 const authBtn = document.getElementById('authBtn');
-                authBtn.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-200');
-                authBtn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+                authBtn.classList.remove('bg-rose-50', 'border-rose-200');
+                authBtn.classList.add('bg-white', 'border-slate-200');
+                
+                document.getElementById('iconUser').classList.remove('hidden');
+                document.getElementById('iconShield').classList.add('hidden');
                 
                 document.getElementById('addBtn').classList.add('hidden');
                 document.getElementById('settingsBtn').classList.add('hidden');
-                showToast('Sesi admin diakhiri (Logout)', 'info');
+                showToast(t('t_logout'), 'info');
                 renderTable();
             } else {
                 document.getElementById('passwordInput').value = '';
@@ -545,16 +655,18 @@
             if (password === 'teknisirepair') { 
                 isAdmin = true;
                 const authBtn = document.getElementById('authBtn');
-                authBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-                authBtn.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-200');
+                authBtn.classList.remove('bg-white', 'border-slate-200');
+                authBtn.classList.add('bg-rose-50', 'border-rose-200');
+                
+                document.getElementById('iconUser').classList.add('hidden');
+                document.getElementById('iconShield').classList.remove('hidden');
                 
                 document.getElementById('addBtn').classList.remove('hidden');
-                document.getElementById('settingsBtn').classList.remove('hidden');
                 closeModal('loginModal');
-                showToast('Login berhasil. Mode Admin Aktif.');
+                showToast(t('t_login_ok'));
                 renderTable();
             } else {
-                showToast('Sandi Admin salah!', 'error');
+                showToast(t('t_login_err'), 'error');
             }
         }
 
@@ -570,7 +682,7 @@
                 closeModal('settingsAuthModal');
                 openModal('settingsModal');
             } else {
-                showToast('Sandi Pengaturan salah!', 'error');
+                showToast(t('t_sec_err'), 'error');
             }
         }
 
@@ -579,16 +691,16 @@
             localStorage.setItem('gas_db_url', dbUrl);
             updateConnectionStatus();
             closeModal('settingsModal');
-            showToast('Konfigurasi API berhasil disimpan');
+            showToast(t('t_save_ok'));
             fetchData();
         }
 
         function updateConnectionStatus() {
             const statusEl = document.getElementById('connectionStatus');
             if (dbUrl && !dbUrl.includes('MASUKKAN_LINK')) {
-                statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></span> <span class="text-emerald-600">Online via Google Sheets</span>`;
+                statusEl.innerHTML = `<span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></span> <span class="text-emerald-600">${t('conn_online')}</span>`;
             } else {
-                statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-orange-400"></span> <span class="text-orange-500">Mode Demo (Penyimpanan Lokal)</span>`;
+                statusEl.innerHTML = `<span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-orange-400"></span> <span class="text-orange-500">${t('conn_demo')}</span>`;
             }
         }
 
@@ -608,7 +720,7 @@
                     }
                 } catch (error) {
                     console.error("Fetch error:", error);
-                    showToast('Gagal memuat database cloud. Beralih ke data lokal.', 'error');
+                    showToast(t('t_fetch_err'), 'error');
                     loadLocalData();
                 }
             } else {
@@ -616,7 +728,7 @@
             }
             
             isLoading = false;
-            renderTable();
+            renderTable(document.getElementById('searchInput').value);
         }
 
         function loadLocalData() {
@@ -639,10 +751,10 @@
         function renderLoading() {
             document.getElementById('dataTableBody').innerHTML = `
                 <tr>
-                    <td colspan="6" class="p-16 text-center text-slate-500">
+                    <td colspan="6" class="p-10 sm:p-16 text-center text-slate-500">
                         <div class="flex flex-col items-center justify-center">
-                            <div class="loader mb-4"></div>
-                            <span class="font-medium animate-pulse">Sinkronisasi data...</span>
+                            <div class="loader mb-3 sm:mb-4"></div>
+                            <span class="text-xs sm:text-sm font-medium animate-pulse">${t('syncing')}</span>
                         </div>
                     </td>
                 </tr>`;
@@ -676,27 +788,27 @@
                     const badgeClass = statusColors[item.status] || 'bg-slate-100 text-slate-700 border-slate-200';
                     return `
                     <tr class="hover:bg-indigo-50/40 transition-colors border-b border-slate-100 group">
-                        <td class="p-3 sm:p-5 font-bold text-slate-800 whitespace-nowrap">${item.id || '-'}</td>
-                        <td class="p-3 sm:p-5 min-w-[140px]">
-                            <div class="font-bold text-slate-800">${item.customer || '-'}</div>
-                            <div class="text-[11px] sm:text-xs text-slate-500 font-medium flex items-center gap-1 mt-0.5"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg> ${item.sales || '-'}</div>
+                        <td class="px-3 py-2 sm:p-5 font-bold text-slate-800 whitespace-nowrap text-xs sm:text-sm">${item.id || '-'}</td>
+                        <td class="px-3 py-2 sm:p-5 min-w-[120px] whitespace-nowrap">
+                            <div class="font-bold text-slate-800 text-xs sm:text-sm truncate max-w-[150px] sm:max-w-none">${item.customer || '-'}</div>
+                            <div class="text-[9px] sm:text-[11px] text-slate-500 font-medium flex items-center gap-1 mt-0.5"><svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg> ${item.sales || '-'}</div>
                         </td>
-                        <td class="p-3 sm:p-5 min-w-[180px]">
-                            <div class="text-slate-800 font-medium line-clamp-2">${item.barang || '-'}</div>
-                            <div class="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">Jumlah: <span class="text-slate-700 font-bold">${item.qty || 1} unit</span></div>
+                        <td class="px-3 py-2 sm:p-5 min-w-[140px]">
+                            <div class="text-slate-800 text-[11px] sm:text-sm font-medium line-clamp-2">${item.barang || '-'}</div>
+                            <div class="text-[9px] sm:text-[11px] text-slate-500 font-medium mt-0.5">Qty: <span class="text-slate-700 font-bold">${item.qty || 1} ${t('unit')}</span></div>
                         </td>
-                        <td class="p-3 sm:p-5 text-slate-600 font-medium whitespace-nowrap">${formatDate(item.tglMasuk)}</td>
-                        <td class="p-3 sm:p-5 whitespace-nowrap">
-                            <span class="inline-flex items-center px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl text-[10px] sm:text-xs font-bold border ${badgeClass} shadow-sm">
-                                ${item.status}
+                        <td class="px-3 py-2 sm:p-5 text-slate-600 text-[10px] sm:text-sm font-medium whitespace-nowrap">${formatDate(item.tglMasuk)}</td>
+                        <td class="px-3 py-2 sm:p-5 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[9px] sm:text-xs font-bold border ${badgeClass} shadow-sm">
+                                ${tStatus(item.status)}
                             </span>
                         </td>
-                        <td class="p-3 sm:p-5 text-center whitespace-nowrap">
-                            <button onclick="viewData('${item.id}')" class="text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 p-2 sm:p-2.5 rounded-xl transition-all mr-1 sm:mr-2 opacity-80 hover:opacity-100 shadow-sm" title="Lihat Detail">
+                        <td class="px-3 py-2 sm:p-5 text-center whitespace-nowrap">
+                            <button onclick="viewData('${item.id}')" class="text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl transition-all mr-1 sm:mr-2 opacity-80 hover:opacity-100 shadow-sm" title="Lihat Detail">
                                 <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                             </button>
                             ${isAdmin ? `
-                            <button onclick="editData('${item.id}')" class="text-amber-600 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 p-2 sm:p-2.5 rounded-xl transition-all opacity-80 hover:opacity-100 shadow-sm" title="Edit Data">
+                            <button onclick="editData('${item.id}')" class="text-amber-600 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl transition-all opacity-80 hover:opacity-100 shadow-sm" title="Edit Data">
                                 <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             </button>
                             ` : ''}
@@ -709,7 +821,7 @@
         function formatDate(dateStr) {
             if (!dateStr) return '-';
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            try { return new Date(dateStr).toLocaleDateString('id-ID', options); } 
+            try { return new Date(dateStr).toLocaleDateString(currentLang === 'indonesia' ? 'id-ID' : 'zh-CN', options); } 
             catch (e) { return dateStr; }
         }
 
@@ -717,7 +829,6 @@
             document.getElementById('repairForm').reset();
             hapusFoto('masuk');
             hapusFoto('keluar');
-            
             document.getElementById('f_foto_masuk').value = '';
             document.getElementById('f_foto_keluar').value = '';
         }
@@ -737,7 +848,7 @@
             const originalIdInput = document.getElementById('originalId');
             
             if (isEditMode && data) {
-                title.textContent = 'Edit Data Perbaikan';
+                title.textContent = t('form_edit');
                 isEditInput.value = 'true';
                 originalIdInput.value = data.id;
                 
@@ -759,7 +870,7 @@
                     document.getElementById('f_foto_keluar_base64').value = data.fotoKeluar;
                 }
             } else {
-                title.textContent = 'Tambah Data Baru';
+                title.textContent = t('form_add');
                 isEditInput.value = 'false';
                 idInput.value = 'REP-' + new Date().getTime().toString().slice(-6);
                 const today = new Date().toISOString().split('T')[0];
@@ -769,9 +880,6 @@
             openModal('formModal');
         }
 
-        // ==========================================
-        // FUNGSI PREVIEW FOTO + WATERMARK OTOMATIS
-        // ==========================================
         function previewFile(input, previewId) {
             const file = input.files[0];
             if (file) {
@@ -782,9 +890,7 @@
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        
-                        // Ukuran ditingkatkan menjadi 800px agar jernih dan watermark jelas
-                        const MAX_DIMENSION = 800; 
+                        const MAX_DIMENSION = 800;
                         
                         if (width > height) {
                             if (width > MAX_DIMENSION) {
@@ -803,38 +909,29 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
                         
-                        // ---------------------------------------------------
-                        // PROSES CETAK WATERMARK OTOMATIS (Teks & Tanggal)
-                        // ---------------------------------------------------
-                        const fontSize = Math.max(14, Math.floor(width * 0.04));
+                        // Watermark Setup
+                        const fontSize = Math.max(18, Math.floor(width * 0.04));
                         ctx.font = `bold ${fontSize}px sans-serif`;
                         ctx.textAlign = 'right';
                         
                         const textAppName = "SERVICE TRACKER";
-                        const textDate = new Date().toLocaleString('id-ID');
+                        const textDate = new Date().toLocaleString(currentLang === 'indonesia' ? 'id-ID' : 'zh-CN');
                         
                         const paddingX = 15;
                         const paddingY = 15;
                         const lineSpacing = fontSize * 1.3;
                         
-                        // Menambahkan border/outline hitam pada teks agar terlihat di background cerah
                         ctx.lineWidth = Math.max(2, fontSize * 0.15);
                         ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
-                        // Warna dasar teks putih semi-transparan
                         ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
                         
-                        // Gambar Teks Tanggal di baris bawah
                         ctx.strokeText(textDate, width - paddingX, height - paddingY);
                         ctx.fillText(textDate, width - paddingX, height - paddingY);
                         
-                        // Gambar Teks Nama Aplikasi di baris atasnya
                         ctx.strokeText(textAppName, width - paddingX, height - paddingY - lineSpacing);
                         ctx.fillText(textAppName, width - paddingX, height - paddingY - lineSpacing);
-                        // ---------------------------------------------------
 
-                        // Convert ke Base64 (JPG kualitas 60%)
-                        const dataURL = canvas.toDataURL('image/jpeg', 0.6); 
-                        
+                        const dataURL = canvas.toDataURL('image/jpeg', 0.8); 
                         showPreview(previewId, dataURL);
                         
                         if (previewId === 'preview_masuk') {
@@ -843,7 +940,7 @@
                             document.getElementById('f_foto_keluar_base64').value = dataURL;
                         }
                         
-                        input.value = '';
+                        input.value = ''; 
                     };
                     img.src = e.target.result;
                 }
@@ -874,13 +971,13 @@
             document.getElementById('v_subtitle').textContent = data.id;
             document.getElementById('v_customer').textContent = data.customer || '-';
             document.getElementById('v_sales').textContent = data.sales || '-';
-            document.getElementById('v_barang').textContent = `${data.barang} (${data.qty || 1} Unit)`;
+            document.getElementById('v_barang').textContent = `${data.barang} (${data.qty || 1} ${t('unit')})`;
             document.getElementById('v_tgl_masuk').textContent = formatDate(data.tglMasuk);
             document.getElementById('v_tgl_keluar').textContent = formatDate(data.tglKeluar);
             
             const badge = document.getElementById('v_status_badge');
-            badge.textContent = data.status;
-            badge.className = `px-3 py-1 rounded-full text-xs font-bold border shadow-sm ${statusColors[data.status] || 'bg-slate-100 text-slate-700 border-slate-200'}`;
+            badge.textContent = tStatus(data.status);
+            badge.className = `px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold border shadow-sm ${statusColors[data.status] || 'bg-slate-100 text-slate-700 border-slate-200'}`;
 
             setupViewPhoto('v_foto_masuk', 'v_no_foto_masuk', data.fotoMasuk);
             setupViewPhoto('v_foto_keluar', 'v_no_foto_keluar', data.fotoKeluar);
@@ -934,7 +1031,7 @@
 
             submitBtn.disabled = true;
             submitLoader.classList.remove('hidden');
-            submitBtnText.textContent = 'Menyimpan...';
+            submitBtnText.textContent = t('btn_saving');
 
             try {
                 const payload = {
@@ -948,23 +1045,17 @@
                         customer: document.getElementById('f_customer').value.trim(),
                         barang: document.getElementById('f_barang').value.trim(),
                         qty: parseInt(document.getElementById('f_qty').value),
-                        status: document.getElementById('f_status').value,
+                        status: document.getElementById('f_status').value, 
                         fotoMasuk: fotoMasukData,
                         fotoKeluar: fotoKeluarData 
                     }
                 };
 
                 if (dbUrl && !dbUrl.includes('MASUKKAN_LINK')) {
-                    const response = await fetch(dbUrl, {
-                        method: 'POST',
-                        body: JSON.stringify(payload),
-                    });
-                    
+                    const response = await fetch(dbUrl, { method: 'POST', body: JSON.stringify(payload) });
                     const result = await response.json();
-                    if(result.status !== 'success') {
-                        throw new Error(result.message || 'Gagal menyimpan ke server');
-                    }
-                    showToast('Data berhasil disimpan ke Database');
+                    if(result.status !== 'success') throw new Error(result.message || 'Gagal menyimpan ke server');
+                    showToast(t('t_save_db_ok'));
                     fetchData(); 
                 } else {
                     await new Promise(resolve => setTimeout(resolve, 800)); 
@@ -976,8 +1067,8 @@
                         appData.push(payload.data);
                     }
                     saveLocalData();
-                    renderTable();
-                    showToast('Data lokal berhasil diperbarui');
+                    renderTable(document.getElementById('searchInput').value);
+                    showToast(t('t_save_loc_ok'));
                 }
                 closeModal('formModal');
             } catch (error) {
@@ -985,7 +1076,7 @@
                 showToast(error.message, 'error');
             } finally {
                 submitBtn.disabled = false;
-                submitBtnText.textContent = 'Simpan Data';
+                submitBtnText.textContent = t('btn_save');
                 submitLoader.classList.add('hidden');
             }
         }

@@ -82,7 +82,7 @@
                 
                 <div class="flex items-center gap-3 flex-1 justify-end">
                     <div class="relative w-full max-w-[220px] sm:max-w-xs transition-all group">
-                        <input type="text" id="searchInput" placeholder="Cari ID, Cust, Sales..." class="w-full pl-10 pr-4 py-2.5 bg-white/60 border border-slate-200 focus:bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm font-medium transition-all shadow-sm group-hover:shadow-md">
+                        <input type="text" id="searchInput" placeholder="Cari ID, Cust, atau Sales..." class="w-full pl-10 pr-4 py-2.5 bg-white/60 border border-slate-200 focus:bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-sm font-medium transition-all shadow-sm group-hover:shadow-md">
                         <svg class="w-4 h-4 text-slate-400 absolute left-4 top-3.5 group-focus-within:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
 
@@ -91,7 +91,7 @@
                     </button>
 
                     <button id="authBtn" onclick="openLoginModal()" class="p-2.5 bg-white shadow-sm hover:shadow-md text-slate-600 hover:text-indigo-600 rounded-full transition-all border border-slate-200 flex-shrink-0" title="Admin Login">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     </button>
                 </div>
             </div>
@@ -171,9 +171,9 @@
                     <div>
                         <input type="password" id="passwordInput" placeholder="Masukkan Sandi" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-lg font-medium transition-all">
                     </div>
-                    <div class="flex gap-3">
-                        <button onclick="closeModal('loginModal')" class="flex-1 py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-colors">Batal</button>
-                        <button onclick="handleLogin()" class="flex-1 btn-modern text-white font-bold py-3.5 rounded-xl">Masuk</button>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="closeModal('loginModal')" class="w-full py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-colors">Batal</button>
+                        <button onclick="handleLogin()" class="w-full btn-modern text-white font-bold py-3.5 rounded-xl">Masuk</button>
                     </div>
                 </div>
             </div>
@@ -193,9 +193,9 @@
                     <div>
                         <input type="password" id="settingsPasswordInput" placeholder="Sandi Pengaturan" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-lg font-medium transition-all">
                     </div>
-                    <div class="flex gap-3">
-                        <button onclick="closeModal('settingsAuthModal')" class="flex-1 py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-colors">Batal</button>
-                        <button onclick="handleSettingsAuth()" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-xl transition-colors">Buka</button>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="closeModal('settingsAuthModal')" class="w-full py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-colors">Batal</button>
+                        <button onclick="handleSettingsAuth()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-xl transition-colors">Buka</button>
                     </div>
                 </div>
             </div>
@@ -217,7 +217,7 @@
                 </div>
                 <div class="space-y-5">
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">Google Apps Script URL</label>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Google Apps Script URL (Sheet + Drive)</label>
                         <input type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white font-medium transition-all text-sm">
                     </div>
                     <div class="pt-2">
@@ -230,7 +230,7 @@
 
     <!-- Form Modal -->
     <div id="formModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-        <div class="glass-card rounded-3xl w-full max-w-3xl my-auto transform transition-all shadow-2xl border border-white/40">
+        <div class="glass-card rounded-3xl w-full max-w-3xl my-auto transform transition-all shadow-2xl border border-white/40 mt-10 mb-10">
             <div class="p-6 sm:p-8">
                 <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-5">
                     <div>
@@ -301,6 +301,7 @@
                     <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Upload Foto Masuk -->
                         <div class="relative w-full border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50/50 hover:bg-indigo-50 hover:border-indigo-400 transition-all text-center overflow-hidden flex flex-col justify-center min-h-[160px] group cursor-pointer" onclick="document.getElementById('f_foto_masuk').click()">
                             <input type="file" id="f_foto_masuk" accept="image/*" onchange="previewFile(this, 'preview_masuk')" class="hidden">
                             
@@ -310,7 +311,7 @@
                                 </div>
                                 <div>
                                     <span class="block text-sm font-bold text-slate-700">Foto Pengecekan (Masuk)</span>
-                                    <span class="block text-xs text-slate-500 mt-1 font-medium">Klik untuk upload gambar</span>
+                                    <span class="block text-xs text-slate-500 mt-1 font-medium">Ketuk area ini untuk ambil foto</span>
                                 </div>
                             </div>
 
@@ -323,6 +324,7 @@
                             </div>
                         </div>
                         
+                        <!-- Upload Foto Keluar -->
                         <div class="relative w-full border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50/50 hover:bg-indigo-50 hover:border-indigo-400 transition-all text-center overflow-hidden flex flex-col justify-center min-h-[160px] group cursor-pointer" onclick="document.getElementById('f_foto_keluar').click()">
                             <input type="file" id="f_foto_keluar" accept="image/*" onchange="previewFile(this, 'preview_keluar')" class="hidden">
                             
@@ -332,7 +334,7 @@
                                 </div>
                                 <div>
                                     <span class="block text-sm font-bold text-slate-700">Foto Pengiriman (Keluar)</span>
-                                    <span class="block text-xs text-slate-500 mt-1 font-medium">Klik untuk upload gambar</span>
+                                    <span class="block text-xs text-slate-500 mt-1 font-medium">Ketuk area ini untuk ambil foto</span>
                                 </div>
                             </div>
 
@@ -432,7 +434,7 @@
         let isAdmin = false;
         
         // ===============================================================================
-        // 👇 TEMPAT MEMASUKKAN LINK GOOGLE APPS SCRIPT ANDA (KINI CUKUP 1 LINK) 👇
+        // 👇 TEMPELKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI 👇
         // ===============================================================================
         
         let dbUrl = 'https://script.google.com/macros/s/AKfycbw7kUnOtZCq_Dm9BX8m8VdUfss1yP1rRB7GoilxfHZ9iKCwADrGlibaPVBSrCbZSBMYDQ/exec'; 
@@ -442,7 +444,7 @@
         let appData = [];
         let isLoading = false;
         
-        // Palet warna yang lebih modern & soft
+        // Palet warna status
         const statusColors = {
             'Menunggu Pengecekan': 'bg-slate-100 text-slate-700 border-slate-200',
             'Sedang Diperbaiki': 'bg-amber-50 text-amber-700 border-amber-200',
@@ -477,7 +479,6 @@
 
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
-            // Warna toast yang lebih elegan
             const colors = type === 'success' ? 'bg-emerald-600' : (type === 'error' ? 'bg-rose-600' : 'bg-slate-800');
             toast.className = `${colors} text-white px-5 py-4 rounded-2xl shadow-2xl shadow-black/10 text-sm font-bold flex items-center gap-3 transform transition-all duration-300 translate-y-8 opacity-0 z-[100] border border-white/10`;
             
@@ -575,7 +576,7 @@
         function updateConnectionStatus() {
             const statusEl = document.getElementById('connectionStatus');
             if (dbUrl && !dbUrl.includes('MASUKKAN_LINK')) {
-                statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></span> <span class="text-emerald-600">Online via Cloud Database</span>`;
+                statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></span> <span class="text-emerald-600">Online via Google Sheets</span>`;
             } else {
                 statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-orange-400"></span> <span class="text-orange-500">Mode Demo (Penyimpanan Lokal)</span>`;
             }
@@ -706,12 +707,17 @@
             document.getElementById('repairForm').reset();
             hapusFoto('masuk');
             hapusFoto('keluar');
+            
+            // Tambahkan reset class input foto
+            document.getElementById('f_foto_masuk').value = '';
+            document.getElementById('f_foto_keluar').value = '';
         }
 
         function hapusFoto(jenis) {
             document.getElementById('f_foto_' + jenis).value = '';
             document.getElementById('f_foto_' + jenis + '_base64').value = '';
             document.getElementById('preview_' + jenis + '_container').classList.add('hidden');
+            document.getElementById('placeholder_' + jenis).classList.remove('hidden');
         }
 
         function openFormModal(isEditMode = false, data = null) {
@@ -735,11 +741,11 @@
                 document.getElementById('f_qty').value = data.qty || 1;
                 document.getElementById('f_status').value = data.status || 'Menunggu Pengecekan';
                 
-                if (data.fotoMasuk) {
+                if (data.fotoMasuk && data.fotoMasuk.length > 5) {
                     showPreview('preview_masuk', data.fotoMasuk);
                     document.getElementById('f_foto_masuk_base64').value = data.fotoMasuk;
                 }
-                if (data.fotoKeluar) {
+                if (data.fotoKeluar && data.fotoKeluar.length > 5) {
                     showPreview('preview_keluar', data.fotoKeluar);
                     document.getElementById('f_foto_keluar_base64').value = data.fotoKeluar;
                 }
@@ -754,6 +760,9 @@
             openModal('formModal');
         }
 
+        // ==========================================
+        // FUNGSI PREVIEW FOTO + WATERMARK OTOMATIS
+        // ==========================================
         function previewFile(input, previewId) {
             const file = input.files[0];
             if (file) {
@@ -764,7 +773,9 @@
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        const MAX_DIMENSION = 250; 
+                        
+                        // Ukuran ditingkatkan menjadi 800px agar jernih dan watermark jelas
+                        const MAX_DIMENSION = 800; 
                         
                         if (width > height) {
                             if (width > MAX_DIMENSION) {
@@ -783,7 +794,37 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
                         
-                        const dataURL = canvas.toDataURL('image/jpeg', 0.5); 
+                        // ---------------------------------------------------
+                        // PROSES CETAK WATERMARK OTOMATIS (Teks & Tanggal)
+                        // ---------------------------------------------------
+                        const fontSize = Math.max(14, Math.floor(width * 0.04));
+                        ctx.font = `bold ${fontSize}px sans-serif`;
+                        ctx.textAlign = 'right';
+                        
+                        const textAppName = "SERVICE TRACKER";
+                        const textDate = new Date().toLocaleString('id-ID');
+                        
+                        const paddingX = 15;
+                        const paddingY = 15;
+                        const lineSpacing = fontSize * 1.3;
+                        
+                        // Menambahkan border/outline hitam pada teks agar terlihat di background cerah
+                        ctx.lineWidth = Math.max(2, fontSize * 0.15);
+                        ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+                        // Warna dasar teks putih semi-transparan
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                        
+                        // Gambar Teks Tanggal di baris bawah
+                        ctx.strokeText(textDate, width - paddingX, height - paddingY);
+                        ctx.fillText(textDate, width - paddingX, height - paddingY);
+                        
+                        // Gambar Teks Nama Aplikasi di baris atasnya
+                        ctx.strokeText(textAppName, width - paddingX, height - paddingY - lineSpacing);
+                        ctx.fillText(textAppName, width - paddingX, height - paddingY - lineSpacing);
+                        // ---------------------------------------------------
+
+                        // Convert ke Base64 (JPG kualitas 60%)
+                        const dataURL = canvas.toDataURL('image/jpeg', 0.6); 
                         
                         showPreview(previewId, dataURL);
                         
@@ -792,6 +833,8 @@
                         } else if (previewId === 'preview_keluar') {
                             document.getElementById('f_foto_keluar_base64').value = dataURL;
                         }
+                        
+                        input.value = '';
                     };
                     img.src = e.target.result;
                 }
@@ -802,8 +845,11 @@
         function showPreview(previewId, src) {
             const img = document.getElementById(previewId);
             const container = document.getElementById(previewId + '_container');
+            const placeholder = document.getElementById('placeholder_' + previewId.replace('preview_', ''));
+            
             img.src = src;
             container.classList.remove('hidden');
+            placeholder.classList.add('hidden');
         }
 
         function editData(id) {
@@ -852,12 +898,14 @@
             }
         }
 
-        // Fitur klik untuk buka gambar besar di tab baru (opsional)
         function openFullImage(imgId) {
             const img = document.getElementById(imgId);
             if(!img.classList.contains('hidden') && img.src) {
-                // Hapus parameter size w1000 agar memuat ukuran aslinya
-                const fullUrl = img.src.replace('&sz=w1000', '');
+                let fullUrl = img.src;
+                // Jika URL menggunakan thumbnail API, ubah parameter sizenya agar memuat gambar lebih besar saat di-klik
+                if (fullUrl.includes('thumbnail?id=')) {
+                    fullUrl = fullUrl.replace(/&sz=w\d+/, '') + '&sz=w2000';
+                }
                 window.open(fullUrl, '_blank');
             }
         }

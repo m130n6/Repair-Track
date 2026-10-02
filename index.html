@@ -140,7 +140,6 @@
                     <table class="w-full text-left border-collapse min-w-[600px] sm:min-w-full">
                         <thead>
                             <tr class="bg-slate-50/80 border-b border-slate-200 uppercase tracking-widest text-slate-500 font-bold whitespace-nowrap">
-                                <!-- ID Transaksi dihapus dari header -->
                                 <th class="px-3 py-3 sm:p-5 text-[9px] sm:text-[11px]" data-i18n="th_cust">Sales & Pelanggan</th>
                                 <th class="px-3 py-3 sm:p-5 text-[9px] sm:text-[11px]" data-i18n="th_item">Detail Barang</th>
                                 <th class="px-3 py-3 sm:p-5 text-[9px] sm:text-[11px]" data-i18n="th_date">Tgl Masuk</th>
@@ -184,12 +183,9 @@
                     <form id="repairForm" onsubmit="handleFormSubmit(event)" class="space-y-4 sm:space-y-6 pb-4">
                         <input type="hidden" id="isEdit" value="false">
                         <input type="hidden" id="originalId" value="">
+                        <input type="hidden" id="f_id" value="">
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-                            <div>
-                                <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_id">ID Transaksi</label>
-                                <input type="text" id="f_id" required data-i18n-ph="ph_auto" placeholder="Otomatis" class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 focus:outline-none text-xs sm:text-sm bg-slate-100/50 text-slate-500 font-medium cursor-not-allowed">
-                            </div>
                             <div>
                                 <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_status">Status Perbaikan</label>
                                 <select id="f_status" required class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-bold text-slate-700">
@@ -197,11 +193,9 @@
                                 </select>
                             </div>
                             
-                            <div class="relative">
+                            <!-- Input Tanggal Masuk Tanpa Tombol Hari Ini -->
+                            <div>
                                 <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_date_in">Tanggal Masuk</label>
-                                <div class="flex gap-2 mb-2 sm:absolute sm:top-0 sm:right-0 sm:mb-0">
-                                    <button type="button" onclick="document.getElementById('f_tgl_masuk').value = new Date().toISOString().split('T')[0]" class="text-[10px] text-indigo-600 font-bold bg-indigo-50 px-2 py-1 rounded hover:bg-indigo-100" data-i18n="btn_today">Hari Ini</button>
-                                </div>
                                 <input type="date" id="f_tgl_masuk" required class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-medium">
                             </div>
                             
@@ -343,13 +337,10 @@
                     
                     <div class="relative z-10 w-full pr-8">
                         <div class="flex items-center gap-2 mb-3 sm:mb-4">
-                            <span id="v_status_badge" class="px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg text-xs sm:text-sm uppercase tracking-widest font-extrabold inline-block text-white shadow-md border-2 border-white/20">-</span>
+                            <span id="v_status_badge" class="px-5 py-3 rounded-xl text-sm sm:text-base uppercase tracking-[0.15em] font-black inline-block text-white shadow-lg border-2 border-white/20">-</span>
                         </div>
                         <h3 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight" id="v_title" data-i18n="v_title">Detail Transaksi</h3>
-                        <p class="text-[10px] sm:text-sm text-slate-500 font-medium mt-1.5 flex items-center gap-1.5">
-                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                            ID: <span id="v_subtitle" class="font-bold text-slate-700">-</span>
-                        </p>
+                        <!-- ID Transaksi disembunyikan jika diinginkan, tapi saya tetap biarkan sebagai referensi abu-abu -->
                     </div>
                     <button onclick="closeModal('viewModal')" class="absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 sm:w-10 sm:h-10 bg-slate-100 border border-slate-200 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors active:scale-95 z-20">
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -360,13 +351,14 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-xs sm:text-sm mb-6 bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm">
                         <div><p class="text-slate-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-1" data-i18n="v_sales">Sales</p><p class="font-extrabold text-slate-800 text-sm sm:text-base break-words" id="v_sales">-</p></div>
                         <div><p class="text-slate-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-1" data-i18n="v_cust">Customer</p><p class="font-bold text-slate-600 text-xs sm:text-sm break-words flex items-center gap-1.5 mt-0.5" id="v_customer">-</p></div>
+                        
                         <div class="sm:col-span-2">
                             <p class="text-slate-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-1.5" data-i18n="v_item">Barang & Qty</p>
                             <div class="bg-indigo-50/50 p-3 sm:p-4 rounded-xl border border-indigo-100">
                                 <p class="font-extrabold text-indigo-900 text-sm sm:text-base break-words" id="v_barang">-</p>
                             </div>
                         </div>
-                        
+
                         <div class="sm:col-span-2 hidden" id="v_keterangan_container">
                             <p class="text-slate-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-1.5" data-i18n="v_notes">Keterangan Tambahan</p>
                             <div class="bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-100">
@@ -444,7 +436,7 @@
                 modal_login_title: "Login Admin", modal_login_sub: "Akses khusus untuk admin", ph_password: "Masukkan Sandi",
                 btn_cancel: "Batal", btn_login: "Masuk", btn_today: "Hari Ini", btn_clear: "Hapus",
                 form_add: "Tambah Data Baru", form_edit: "Edit Data Perbaikan", form_sub: "Lengkapi informasi perbaikan barang",
-                lbl_id: "ID Transaksi", ph_auto: "Otomatis", lbl_status: "Status Perbaikan", lbl_date_in: "Tanggal Masuk", lbl_date_out: "Tanggal Keluar (Estimasi)",
+                lbl_status: "Status Perbaikan", lbl_date_in: "Tanggal Masuk", lbl_date_out: "Tanggal Keluar (Estimasi)",
                 lbl_cust: "Nama Pelanggan", ph_cust: "Contoh: Budi Santoso", lbl_sales: "Nama Sales", ph_sales: "Contoh: Andi",
                 lbl_item: "Detail Barang & Kendala", ph_item: "Contoh: Laptop Asus - Mati Total", lbl_qty: "Qty (Unit)",
                 lbl_notes: "Keterangan Tambahan (Opsional)", ph_notes: "Tulis catatan, pesan teknisi, penjelasan kendala...",
@@ -468,7 +460,7 @@
                 modal_login_title: "管理员登录", modal_login_sub: "管理员专用访问权限", ph_password: "输入密码",
                 btn_cancel: "取消", btn_login: "登录", btn_today: "今天", btn_clear: "明确",
                 form_add: "添加新数据", form_edit: "编辑维修数据", form_sub: "填写物品维修信息",
-                lbl_id: "交易 ID", ph_auto: "自动生成", lbl_status: "维修状态", lbl_date_in: "入库日期", lbl_date_out: "出库日期 (预计)",
+                lbl_status: "维修状态", lbl_date_in: "入库日期", lbl_date_out: "出库日期 (预计)",
                 lbl_cust: "客户名称", ph_cust: "示例: Budi Santoso", lbl_sales: "销售名称", ph_sales: "示例: Andi",
                 lbl_item: "物品详情与问题", ph_item: "示例: 华硕 - 无法开机", lbl_qty: "数量",
                 lbl_notes: "附加说明 (选填)", ph_notes: "编写说明、技术人员信息、问题说明...",
@@ -702,7 +694,7 @@
         function renderLoading() {
             document.getElementById('dataTableBody').innerHTML = `
                 <tr>
-                    <td colspan="5" class="p-10 sm:p-16 text-center text-slate-500 border-b-0">
+                    <td colspan="4" class="p-10 sm:p-16 text-center text-slate-500 border-b-0">
                         <div class="flex flex-col items-center justify-center">
                             <div class="loader mb-3 sm:mb-4"></div>
                             <span class="text-xs sm:text-sm font-medium animate-pulse">${t('syncing')}</span>
@@ -926,7 +918,7 @@
             if (!data) return;
 
             document.getElementById('v_title').textContent = data.barang;
-            document.getElementById('v_subtitle').textContent = data.id;
+            
             document.getElementById('v_customer').textContent = data.customer || '-';
             document.getElementById('v_sales').textContent = data.sales || '-';
             document.getElementById('v_barang').textContent = `${data.barang} (${data.qty || 1} ${t('unit')})`;

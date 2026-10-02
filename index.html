@@ -140,7 +140,7 @@
                     <table class="w-full text-left border-collapse min-w-[600px] sm:min-w-full">
                         <thead>
                             <tr class="bg-slate-50/80 border-b border-slate-200 uppercase tracking-widest text-slate-500 font-bold whitespace-nowrap">
-                                <th class="px-3 py-3 sm:p-5 text-[9px] sm:text-[11px]" data-i18n="th_id">ID Transaksi</th>
+                                <!-- ID Transaksi dihapus dari header -->
                                 <th class="px-3 py-3 sm:p-5 text-[9px] sm:text-[11px]" data-i18n="th_cust">Sales & Pelanggan</th>
                                 <th class="px-3 py-3 sm:p-5 text-[9px] sm:text-[11px]" data-i18n="th_item">Detail Barang</th>
                                 <th class="px-3 py-3 sm:p-5 text-[9px] sm:text-[11px]" data-i18n="th_date">Tgl Masuk</th>
@@ -196,12 +196,21 @@
                                     <!-- Options generated via JS -->
                                 </select>
                             </div>
-                            <div>
+                            
+                            <div class="relative">
                                 <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_date_in">Tanggal Masuk</label>
+                                <div class="flex gap-2 mb-2 sm:absolute sm:top-0 sm:right-0 sm:mb-0">
+                                    <button type="button" onclick="document.getElementById('f_tgl_masuk').value = new Date().toISOString().split('T')[0]" class="text-[10px] text-indigo-600 font-bold bg-indigo-50 px-2 py-1 rounded hover:bg-indigo-100" data-i18n="btn_today">Hari Ini</button>
+                                </div>
                                 <input type="date" id="f_tgl_masuk" required class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-medium">
                             </div>
-                            <div>
+                            
+                            <div class="relative">
                                 <label class="block text-xs sm:text-sm font-bold text-slate-700 mb-1.5 sm:mb-2" data-i18n="lbl_date_out">Tanggal Keluar (Estimasi)</label>
+                                <div class="flex gap-2 mb-2 sm:absolute sm:top-0 sm:right-0 sm:mb-0">
+                                    <button type="button" onclick="document.getElementById('f_tgl_keluar').value = new Date().toISOString().split('T')[0]" class="text-[10px] text-indigo-600 font-bold bg-indigo-50 px-2 py-1 rounded hover:bg-indigo-100" data-i18n="btn_today">Hari Ini</button>
+                                    <button type="button" onclick="document.getElementById('f_tgl_keluar').value = ''" class="text-[10px] text-rose-600 font-bold bg-rose-50 px-2 py-1 rounded hover:bg-rose-100" data-i18n="btn_clear">Hapus</button>
+                                </div>
                                 <input type="date" id="f_tgl_keluar" class="input-modern w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-xs sm:text-sm font-medium">
                             </div>
                         </div>
@@ -330,12 +339,11 @@
             <div class="glass-card rounded-t-3xl sm:rounded-3xl w-full transform transition-all shadow-2xl border border-white/40 flex flex-col h-full bg-white text-left">
                 
                 <div class="p-4 sm:p-6 border-b border-slate-100 bg-white flex justify-between items-start flex-shrink-0 sm:rounded-t-3xl rounded-t-3xl relative overflow-hidden">
-                    <!-- Aksen warna status di background header detail -->
                     <div id="v_status_bg" class="absolute inset-0 opacity-10 pointer-events-none"></div>
                     
                     <div class="relative z-10 w-full pr-8">
                         <div class="flex items-center gap-2 mb-3 sm:mb-4">
-                            <span id="v_status_badge" class="px-3 py-1 sm:px-4 sm:py-1.5 rounded-lg text-[10px] sm:text-xs uppercase tracking-wider font-extrabold inline-block text-white shadow-sm">-</span>
+                            <span id="v_status_badge" class="px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg text-xs sm:text-sm uppercase tracking-widest font-extrabold inline-block text-white shadow-md border-2 border-white/20">-</span>
                         </div>
                         <h3 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight" id="v_title" data-i18n="v_title">Detail Transaksi</h3>
                         <p class="text-[10px] sm:text-sm text-slate-500 font-medium mt-1.5 flex items-center gap-1.5">
@@ -359,7 +367,6 @@
                             </div>
                         </div>
                         
-                        <!-- KETERANGAN TAMBAHAN DI VIEW MODAL -->
                         <div class="sm:col-span-2 hidden" id="v_keterangan_container">
                             <p class="text-slate-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-1.5" data-i18n="v_notes">Keterangan Tambahan</p>
                             <div class="bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-100">
@@ -416,7 +423,6 @@
         let appData = [];
         let isLoading = false;
         
-        // Pilihan Warna Status Solid Mencolok
         const statusColors = {
             'Menunggu Antrian': 'bg-slate-700 text-white',
             'Sedang Diperbaiki': 'bg-amber-500 text-white',
@@ -431,12 +437,12 @@
             indonesia: {
                 app_title: "Service Tracker", app_subtitle: "Sistem Manajemen Perbaikan", search: "Cari...",
                 refresh: "Refresh", add_data: "Tambah Data", list_title: "Daftar Perbaikan",
-                th_id: "ID Trans", th_cust: "Sales & Pelanggan", th_item: "Detail Barang",
+                th_cust: "Sales & Pelanggan", th_item: "Detail Barang",
                 th_date: "Tgl Masuk", th_status: "Status", th_action: "Aksi",
                 empty_title: "Belum ada data perbaikan", empty_desc: "Data servis yang ditambahkan oleh admin akan muncul di sini.",
                 loading: "Memuat data...", syncing: "Sinkronisasi data...",
                 modal_login_title: "Login Admin", modal_login_sub: "Akses khusus untuk admin", ph_password: "Masukkan Sandi",
-                btn_cancel: "Batal", btn_login: "Masuk",
+                btn_cancel: "Batal", btn_login: "Masuk", btn_today: "Hari Ini", btn_clear: "Hapus",
                 form_add: "Tambah Data Baru", form_edit: "Edit Data Perbaikan", form_sub: "Lengkapi informasi perbaikan barang",
                 lbl_id: "ID Transaksi", ph_auto: "Otomatis", lbl_status: "Status Perbaikan", lbl_date_in: "Tanggal Masuk", lbl_date_out: "Tanggal Keluar (Estimasi)",
                 lbl_cust: "Nama Pelanggan", ph_cust: "Contoh: Budi Santoso", lbl_sales: "Nama Sales", ph_sales: "Contoh: Andi",
@@ -455,12 +461,12 @@
             china: {
                 app_title: "服务追踪系统", app_subtitle: "维修管理系统", search: "搜索...",
                 refresh: "刷新", add_data: "添加数据", list_title: "维修列表",
-                th_id: "交易 ID", th_cust: "销售 & 客户", th_item: "物品详情",
+                th_cust: "销售 & 客户", th_item: "物品详情",
                 th_date: "入库日期", th_status: "状态", th_action: "操作",
                 empty_title: "尚无维修数据", empty_desc: "管理员添加的维修数据将显示在这里。",
                 loading: "加载中...", syncing: "同步数据中...",
                 modal_login_title: "管理员登录", modal_login_sub: "管理员专用访问权限", ph_password: "输入密码",
-                btn_cancel: "取消", btn_login: "登录",
+                btn_cancel: "取消", btn_login: "登录", btn_today: "今天", btn_clear: "明确",
                 form_add: "添加新数据", form_edit: "编辑维修数据", form_sub: "填写物品维修信息",
                 lbl_id: "交易 ID", ph_auto: "自动生成", lbl_status: "维修状态", lbl_date_in: "入库日期", lbl_date_out: "出库日期 (预计)",
                 lbl_cust: "客户名称", ph_cust: "示例: Budi Santoso", lbl_sales: "销售名称", ph_sales: "示例: Andi",
@@ -535,10 +541,6 @@
                 renderTable(e.target.value);
             });
 
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('f_tgl_masuk').value = today;
-
-            // Fitur tekan Enter di Form Login
             document.getElementById('passwordInput').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') { e.preventDefault(); handleLogin(); }
             });
@@ -584,7 +586,6 @@
 
         function openLoginModal() {
             if (isAdmin) {
-                // Logout Admin
                 isAdmin = false;
                 
                 document.getElementById('iconShield').classList.replace('scale-100', 'scale-0');
@@ -597,7 +598,6 @@
                     document.getElementById('iconUser').classList.replace('-rotate-180', 'rotate-0');
                 }, 150);
                 
-                // Ubah Warna Tombol Kembali Putih & Abu-abu
                 const authBtn = document.getElementById('authBtn');
                 authBtn.classList.replace('bg-rose-600', 'bg-white');
                 authBtn.classList.replace('hover:bg-rose-700', 'hover:bg-slate-50');
@@ -630,7 +630,6 @@
                     document.getElementById('iconShield').classList.replace('rotate-180', 'rotate-0');
                 }, 150);
                 
-                // Ubah Warna Tombol Menjadi Merah Menyala (Logout Mode)
                 const authBtn = document.getElementById('authBtn');
                 authBtn.classList.replace('bg-white', 'bg-rose-600');
                 authBtn.classList.replace('hover:bg-slate-50', 'hover:bg-rose-700');
@@ -703,7 +702,7 @@
         function renderLoading() {
             document.getElementById('dataTableBody').innerHTML = `
                 <tr>
-                    <td colspan="6" class="p-10 sm:p-16 text-center text-slate-500 border-b-0">
+                    <td colspan="5" class="p-10 sm:p-16 text-center text-slate-500 border-b-0">
                         <div class="flex flex-col items-center justify-center">
                             <div class="loader mb-3 sm:mb-4"></div>
                             <span class="text-xs sm:text-sm font-medium animate-pulse">${t('syncing')}</span>
@@ -738,7 +737,6 @@
             } else {
                 emptyState.classList.add('hidden');
                 
-                // Tema warna untuk setiap baris tabel
                 const rowThemes = [
                     { bg: 'bg-blue-50/60', hover: 'hover:bg-blue-100/80', border: 'border-blue-400' },
                     { bg: 'bg-emerald-50/60', hover: 'hover:bg-emerald-100/80', border: 'border-emerald-400' },
@@ -753,10 +751,7 @@
                     
                     return `
                     <tr onclick="viewData('${item.id}')" class="cursor-pointer ${theme.bg} ${theme.hover} transition-all duration-300 border-b-[6px] border-white group relative">
-                        <td class="px-3 py-3.5 sm:p-5 font-bold text-slate-800 whitespace-nowrap text-xs sm:text-sm border-l-[5px] ${theme.border} group-hover:pl-4 transition-all duration-300">
-                            ${item.id || '-'}
-                        </td>
-                        <td class="px-3 py-3.5 sm:p-5 min-w-[120px] whitespace-nowrap">
+                        <td class="px-3 py-3.5 sm:p-5 min-w-[120px] whitespace-nowrap border-l-[5px] ${theme.border} group-hover:pl-4 transition-all duration-300">
                             <div class="font-extrabold text-slate-800 text-xs sm:text-sm truncate max-w-[150px] sm:max-w-none group-hover:text-slate-900 transition-colors">${item.sales || '-'}</div>
                             <div class="text-[9px] sm:text-[11px] text-slate-500 font-bold flex items-center gap-1 mt-0.5">
                                 <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg> 
@@ -860,7 +855,7 @@
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        const MAX_DIMENSION = 800; // Resolusi Tinggi
+                        const MAX_DIMENSION = 800;
                         
                         if (width > height) {
                             if (width > MAX_DIMENSION) { height = Math.round(height * (MAX_DIMENSION / width)); width = MAX_DIMENSION; }
@@ -873,7 +868,6 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
                         
-                        // Watermark Setting
                         const fontSize = Math.max(16, Math.floor(width * 0.035));
                         ctx.font = `bold ${fontSize}px sans-serif`;
                         ctx.textAlign = 'right';
@@ -939,7 +933,6 @@
             document.getElementById('v_tgl_masuk').textContent = formatDate(data.tglMasuk);
             document.getElementById('v_tgl_keluar').textContent = formatDate(data.tglKeluar);
             
-            // Mengatur Keterangan di View Modal
             const ketContainer = document.getElementById('v_keterangan_container');
             const ketText = document.getElementById('v_keterangan');
             if (data.keterangan && data.keterangan.trim() !== '') {
@@ -949,18 +942,15 @@
                 ketContainer.classList.add('hidden');
             }
 
-            // Mengatur Badge Status
             const badge = document.getElementById('v_status_badge');
             badge.textContent = tStatus(data.status);
             
-            // Ganti Background Badge
             const currentClass = Array.from(badge.classList).find(c => c.startsWith('bg-'));
             if(currentClass) badge.classList.remove(currentClass);
             
             const newColor = statusColors[data.status] ? statusColors[data.status].split(' ')[0] : 'bg-slate-700';
             badge.classList.add(newColor);
             
-            // Mengatur Background Header menyesuaikan Status
             const bgHeader = document.getElementById('v_status_bg');
             bgHeader.className = `absolute inset-0 opacity-10 pointer-events-none ${newColor}`;
 
@@ -1032,7 +1022,7 @@
                         customer: document.getElementById('f_customer').value.trim(),
                         barang: document.getElementById('f_barang').value.trim(),
                         qty: parseInt(document.getElementById('f_qty').value),
-                        keterangan: document.getElementById('f_keterangan').value.trim(), // Data Baru Disini
+                        keterangan: document.getElementById('f_keterangan').value.trim(),
                         status: document.getElementById('f_status').value, 
                         fotoMasuk: fotoMasukData,
                         fotoKeluar: fotoKeluarData 
